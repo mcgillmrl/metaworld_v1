@@ -14,6 +14,9 @@ except ImportError as e:
 
 DEFAULT_SIZE = 500
 
+from mujoco_py import GlfwContext
+GlfwContext(offscreen=True)
+
 class MujocoEnv(gym.Env):
 	"""
 	This is a simplified version of the gym MujocoEnv class.
@@ -83,7 +86,12 @@ class MujocoEnv(gym.Env):
 		Optionally implement this method, if you need to tinker with camera position
 		and so forth.
 		"""
-		pass
+		self.viewer.cam.azimuth = -70
+		self.viewer.cam.elevation = -10
+		self.viewer.cam.distance = 1.5
+		# self.viewer.cam.lookat[0] = 1.1
+		# self.viewer.cam.lookat[1] = 1.1 
+		# self.viewer.cam.lookat[2] = -0.1
 
 	# -----------------------------
 
@@ -127,6 +135,7 @@ class MujocoEnv(gym.Env):
 		if 'rgb_array' in mode:
 			self._get_viewer(mode).render(width, height)
 			# window size used for old mujoco-py:
+			#import pdb;pdb.set_trace()
 			data = self._get_viewer(mode).read_pixels(width, height, depth=depth)
 			# original image is upside-down, so flip it
 			if not depth:
@@ -147,7 +156,8 @@ class MujocoEnv(gym.Env):
 			if mode == 'human':
 				self.viewer = mujoco_py.MjViewer(self.sim)
 			elif 'rgb_array' in mode:
-				self.viewer = mujoco_py.MjRenderContextOffscreen(self.sim, 0)
+				#self.viewer = mujoco_py.MjRenderContextOffscreen(self.sim, 0)
+				self.viewer = mujoco_py.MjRenderContextOffscreen(self.sim, device_id=-1)
 			self.viewer_setup()
 			self._viewers[mode] = self.viewer
 		# if mode == 'rgb_array_y':
