@@ -151,7 +151,6 @@ class MujocoEnv(gym.Env):
 		if 'rgb_array' in mode:
 			self._get_viewer(mode).render(width, height)
 			# window size used for old mujoco-py:
-			#import pdb;pdb.set_trace()
 			data = self._get_viewer(mode).read_pixels(width, height, depth=depth)
 			# original image is upside-down, so flip it
 			if not depth:
