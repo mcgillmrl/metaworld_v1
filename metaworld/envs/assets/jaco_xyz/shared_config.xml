@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<mujoco>
+    <!-- <compiler inertiafromgeom='true' angle="radian" meshdir="../meshes/jaco_arm" />
+    <option integrator="RK4" solver="PGS" timestep="0.001" gravity="0 0 0" iterations="50"/> -->
+
+    <worldbody>
+        <light diffuse=".8 .8 .8" dir="0 -.15 -1" directional="false" pos="1 1 4.0" specular="0.3 0.3 0.3" castshadow="false"/>
+        <light diffuse=".8 .8 .8" dir="0 -.15 -1" directional="false" pos="-3. -3. 4.0" specular="0.3 0.3 0.3" castshadow="false"/>
+      </worldbody>
+
+    <asset>
+
+    <mesh name="add_base" file="sawyer/base.stl" />
+    <mesh name="pedestal" file="sawyer/pedestal.stl" />
+    <mesh name="jaco_link_base" file="jaco_arm/jaco_link_base.stl" />
+    <mesh name="jaco_link_1" file="jaco_arm/jaco_link_1.stl" />
+    <mesh name="jaco_link_2" file="jaco_arm/jaco_link_2.stl" />
+    <mesh name="jaco_link_3" file="jaco_arm/jaco_link_3.stl" />
+    <mesh name="jaco_link_4" file="jaco_arm/jaco_link_4.stl" />
+    <mesh name="jaco_link_5" file="jaco_arm/jaco_link_5.stl" />
+    <mesh name="jaco_link_hand" file="jaco_arm/jaco_link_hand.stl"/>
+    <mesh name="jaco_link_finger_1" file="jaco_arm/jaco_link_finger_1.stl"/>
+    <mesh name="jaco_link_finger_2" file="jaco_arm/jaco_link_finger_2.stl"/>
+    <mesh name="jaco_link_finger_3" file="jaco_arm/jaco_link_finger_3.stl"/>  
+
+	<mesh name="mug_mesh" file="objects/mug.stl"  scale="0.0006 0.0006 0.0006"/>
+        <texture type="skybox" builtin="gradient" rgb1=".50 .495 .48" rgb2=".50 .495 .48" width="32" height="32"></texture>
+        <texture file="marble.png" name="marble" />
+        <texture file="navy_blue.png" name="navy_blue" />
+        <texture file="wood_light.png" name="table_texture" type="2d"/>
+        <texture file="wood_light.png" name="wood_texture"/>
+        <texture file="tennis.png" name="tennis_green"/>
+
+        <material name="marble" shininess="0.3" rgba="0.9 0.9 0.9 1" specular="1" texture="marble"/>
+        <material name="navy_blue" shininess="0.3" rgba="0.9 0.9 0.9 1" specular="1" texture="navy_blue"/>
+        <material name="tennis_green" shininess="0.3" rgba="0.9 0.9 0.9 1" specular="1" texture="tennis_green"/>
+        <material name="wood_material" rgba="1 1 1 1" shininess="0.1" specular="0.4" texture="wood_texture" />
+        <material name="table_material" rgba="1 1 1 1" shininess="0.1" specular="0.4" texture="table_texture" />
+
+        <!-- <texture type="skybox" builtin="gradient" rgb1=".2 .3 .4" rgb2="1 1 1"
+        width="100" height="100"/> -->
+        <texture name="groundplane" type="2d" builtin="checker" rgb1=".25 .26 .25"
+        rgb2=".22 .22 .22" width="100" height="100" mark="none" markrgb=".8 .8 .8"/>
+        <!-- <texture name="greenground" type="2d" builtin="gradient" rgb1="0.19 0.28 0.23"
+        rgb2="0 0 0" width="100" height="100" mark="none" markrgb=".8 .8 .8"/> -->
+        <material name="MatViz" specular="1" shininess=".1" reflectance="0.5" rgba=".07 .07 .1 1"/>
+        <!-- <material name="MatGnd" texture="groundplane"  texrepeat="5 5" specular="1" shininess="0" reflectance="0"/> -->
+
+
+    </asset>
+
+
+ <default>
+    <geom contype='1' conaffinity='1' condim='3' margin="0.001" />
+
+    <joint limited="false" damping="0" armature=".01"/>
+
+    <default class ="vizNcoll">
+      <geom material="MatViz" type="mesh" condim="3" contype="1" conaffinity="1" margin="0.001"/>
+      <joint pos="0 0 0" type="hinge"/>
+    </default>
+    <default class ="ground">
+      <geom type="plane" margin="0.001" contype="1" />
+    </default>
+  </default>
+
+
+    <asset>
+    <texture name="wood" file="../textures/wood.png" type="cube"/>
+    <material shininess=".1" name="wood" texture="wood" specular="0.4"/>
+
+    <texture name="real_door" file="../textures/real_door.png" type="cube"/>
+    <material shininess=".1" name="real_door" texture="real_door" specular=".4"/>
+
+    <texture name="darkwood" file="../textures/darkwood.png" type="cube"/>
+    <material shininess=".1" name="darkwood" texture="darkwood" specular="0.4"/>
+
+    <texture name="granite" file="../textures/granite.png" type="2d"/>
+    <material shininess=".1" name="granite" texture="granite" specular="0.4"/>
+
+    <texture name="light_wood" file="../textures/light_wood.png" type="cube"/>
+    <material shininess=".1" name="light_wood" texture="light_wood" specular="0.4"/>
+
+    <texture name="light_wood_v2" file="../textures/light_wood_v2.png" type="cube"/>
+    <material shininess=".1" name="light_wood_v2" texture="light_wood_v2" specular="0.4"/>
+
+    <texture name="light_wood_v3" file="../textures/light_wood_v3.png" type="2d"/>
+    <material shininess=".1" name="light_wood_v3" texture="light_wood_v3" specular="0.4"/>
+
+    <texture builtin="gradient" height="256" rgb1=".9 .9 1." rgb2=".2 .3 .4" type="skybox" width="256"/>
+  </asset>
+
+    <visual>
+        <headlight ambient="0.5 0.5 0.5"  />
+    </visual>
+
+    <!-- <compiler angle="radian" meshdir="../meshes/sawyer"/> -->
+    <compiler inertiafromgeom="auto" angle="radian" coordinate="local" eulerseq="XYZ" meshdir="../meshes" texturedir="../textures"/>
+    <!-- <option
+            iterations="50"
+            integrator="Euler"
+            timestep="0.002"
+            cone="elliptic"
+    /> -->
+
+    <option timestep='0.0025' iterations="50" tolerance="1e-10" solver="Newton" jacobian="dense" cone="elliptic"/>     
+
+    <!-- <default>
+        <joint limited="true"
+               damping="1"
+               stiffness="0"
+               armature=".1"
+               user="0"/>
+        <geom solref="0.008 1"
+              solimp="0.95 0.95 0.01"
+              margin="0.001"
+              user="0"
+              />
+        <motor ctrllimited="true" ctrlrange="-1 1"/>
+        <position ctrllimited="true"/>
+
+        <default class='0'>
+            <geom friction="1 0.005 0.001" rgba=".75 .6 .5 1"
+                  contype="1" conaffinity="0"/>
+        </default>
+
+        <default class='1'>
+            <geom friction="1 0.005 0.001" rgba=".7 .6 .55 1"
+                  contype="2" conaffinity="2"/>
+        </default>
+
+        <default class='arm'>
+            <joint damping="5"/>
+        </default>
+    </default>
+
+    <equality>
+        <weld body1="mocap" body2="hand" solref="0.01"></weld>
+    </equality> -->
+    <default>
+        <joint limited="true"
+               damping="1"
+               stiffness="0"
+               armature=".1"
+               user="0"/>
+        <geom solref="0.02 1"
+              solimp="1 1 0"
+             
+              />
+        <motor ctrllimited="true" ctrlrange="-1 1"/>
+        <position ctrllimited="true"/>
+
+       <!--  <default class='0'>
+            <geom friction="1 0.005 0.001" rgba=".75 .6 .5 1"
+                  contype="1" conaffinity="0"/>
+        </default>
+        <default class='1'>
+            <geom friction="1 0.005 0.001" rgba=".7 .6 .55 1"
+                  contype="4" conaffinity="2"/>
+        </default>
+        <default class='arm'>
+            <joint damping="5"/>
+        </default> -->
+    </default>
+
+    <!-- <equality>
+        <weld body1="mocap" body2="hand" solref="0.02 1"></weld>
+    </equality> -->
+</mujoco>

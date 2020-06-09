@@ -52,8 +52,12 @@ from metaworld.envs.mujoco.sawyer_xyz.sawyer_plate_slide_back import SawyerPlate
 from metaworld.envs.mujoco.sawyer_xyz.sawyer_plate_slide_side import SawyerPlateSlideSideEnv
 from metaworld.envs.mujoco.sawyer_xyz.sawyer_plate_slide_back_side import SawyerPlateSlideBackSideEnv
 
+from metaworld.envs.mujoco.jaco_xyz.jaco_reach_push_pick_place import JacoReachPushPickPlaceEnv
+
+
 ALL_ENVIRONMENTS = OrderedDict((
     ('reach-v1', SawyerReachPushPickPlaceEnv),
+    ('jaco-reach-v1', JacoReachPushPickPlaceEnv),
     ('push-v1', SawyerReachPushPickPlaceEnv),
     ('pick-place-v1', SawyerReachPushPickPlaceEnv),
     ('door-open-v1', SawyerDoorEnv),
@@ -220,6 +224,7 @@ HARD_MODE_CLS_DICT = OrderedDict((
     ('train', 
         OrderedDict((
             ('reach-v1', SawyerReachPushPickPlaceEnv),
+            ('jaco-reach-v1', JacoReachPushPickPlaceEnv),
             ('push-v1', SawyerReachPushPickPlaceEnv),
             ('pick-place-v1', SawyerReachPushPickPlaceEnv),
             ('door-open-v1', SawyerDoorEnv),
