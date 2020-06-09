@@ -87,15 +87,19 @@ class MujocoEnv(gym.Env):
 		and so forth.
 		"""
 
-		# For reach/push
-		# self.viewer.cam.azimuth = -70
-		# self.viewer.cam.elevation = -10
-		# self.viewer.cam.distance = 1.5
+		# For Sawyer reach/push
+		self.viewer.cam.azimuth = -70
+		self.viewer.cam.elevation = -10
+		self.viewer.cam.distance = 1.5
+
+		# For Jaco reach/push
+		# Bring the camera closer
+		self.viewer.cam.distance = 1.0
 
 		# For button-press
-		self.viewer.cam.azimuth = 180
-		self.viewer.cam.elevation = -20
-		self.viewer.cam.distance = 1.5
+		# self.viewer.cam.azimuth = 180
+		# self.viewer.cam.elevation = -20
+		# self.viewer.cam.distance = 1.5
 		# self.viewer.cam.lookat[0] = 1.1
 		# self.viewer.cam.lookat[1] = 1.1 
 		# self.viewer.cam.lookat[2] = -0.1
