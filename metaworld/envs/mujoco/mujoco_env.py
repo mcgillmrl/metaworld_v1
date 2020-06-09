@@ -86,12 +86,28 @@ class MujocoEnv(gym.Env):
 		Optionally implement this method, if you need to tinker with camera position
 		and so forth.
 		"""
-		self.viewer.cam.azimuth = -70
-		self.viewer.cam.elevation = -10
+
+		# For reach/push
+		# self.viewer.cam.azimuth = -70
+		# self.viewer.cam.elevation = -10
+		# self.viewer.cam.distance = 1.5
+
+		# For button-press
+		self.viewer.cam.azimuth = 180
+		self.viewer.cam.elevation = -20
 		self.viewer.cam.distance = 1.5
 		# self.viewer.cam.lookat[0] = 1.1
 		# self.viewer.cam.lookat[1] = 1.1 
 		# self.viewer.cam.lookat[2] = -0.1
+
+		# For Hammer
+		# self.viewer.cam.lookat[0] = 0
+		# self.viewer.cam.lookat[1] = 0.85
+		# self.viewer.cam.lookat[2] = 0.3
+		# self.viewer.cam.distance = 0.3
+		# self.viewer.cam.elevation = -35
+		# self.viewer.cam.azimuth = 270
+		# self.viewer.cam.trackbodyid = -1
 
 	# -----------------------------
 
@@ -135,7 +151,6 @@ class MujocoEnv(gym.Env):
 		if 'rgb_array' in mode:
 			self._get_viewer(mode).render(width, height)
 			# window size used for old mujoco-py:
-			#import pdb;pdb.set_trace()
 			data = self._get_viewer(mode).read_pixels(width, height, depth=depth)
 			# original image is upside-down, so flip it
 			if not depth:
