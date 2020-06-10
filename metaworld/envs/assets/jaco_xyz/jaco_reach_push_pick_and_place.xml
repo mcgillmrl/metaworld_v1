@@ -28,10 +28,9 @@
        
     </worldbody>
 
-    <actuator>
+    <!-- <actuator>
         <position ctrllimited="true" ctrlrange="-1 1" joint="r_close" kp="400"  user="1"/>
         <position ctrllimited="true" ctrlrange="-1 1" joint="l_close" kp="400"  user="1"/>
-       
-    </actuator>
+    </actuator> -->
 
 </mujoco>

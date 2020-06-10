@@ -44,7 +44,7 @@
  <default>
     <geom contype='1' conaffinity='1' condim='3' margin="0.001" />
 
-    <joint limited="false" damping="0" armature=".01"/>
+    <joint limited="false" damping="10" armature=".01"/>
 
     <default class ="vizNcoll">
       <geom material="MatViz" type="mesh" condim="3" contype="1" conaffinity="1" margin="0.001"/>
@@ -87,14 +87,16 @@
 
     <!-- <compiler angle="radian" meshdir="../meshes/sawyer"/> -->
     <compiler inertiafromgeom="auto" angle="radian" coordinate="local" eulerseq="XYZ" meshdir="../meshes" texturedir="../textures"/>
+        <option integrator="RK4" solver="PGS" timestep="0.001" gravity="0 0 -9.8" iterations="50"/>
+
     <!-- <option
             iterations="50"
             integrator="Euler"
             timestep="0.002"
             cone="elliptic"
     /> -->
-
-    <option timestep='0.0025' iterations="50" tolerance="1e-10" solver="Newton" jacobian="dense" cone="elliptic"/>     
+    <option tolerance="1e-10" jacobian="dense" cone="elliptic"/> 
+    <!-- <option timestep='0.0025' iterations="50" tolerance="1e-10" solver="Newton" jacobian="dense" cone="elliptic"/>      -->
 
     <!-- <default>
         <joint limited="true"
@@ -128,33 +130,29 @@
     <equality>
         <weld body1="mocap" body2="hand" solref="0.01"></weld>
     </equality> -->
-    <default>
-        <joint limited="true"
-               damping="1"
-               stiffness="0"
-               armature=".1"
-               user="0"/>
-        <geom solref="0.02 1"
-              solimp="1 1 0"
-             
-              />
-        <motor ctrllimited="true" ctrlrange="-1 1"/>
-        <position ctrllimited="true"/>
 
-       <!--  <default class='0'>
-            <geom friction="1 0.005 0.001" rgba=".75 .6 .5 1"
-                  contype="1" conaffinity="0"/>
-        </default>
-        <default class='1'>
-            <geom friction="1 0.005 0.001" rgba=".7 .6 .55 1"
-                  contype="4" conaffinity="2"/>
-        </default>
-        <default class='arm'>
-            <joint damping="5"/>
-        </default> -->
-    </default>
 
     <!-- <equality>
         <weld body1="mocap" body2="jaco_link_hand" solref="0.02 1"></weld>
     </equality> -->
+
+      <actuator>
+  <position joint='jaco_joint_1'  name='pos_act_1' kp="55"  ctrlrange='-628 628' ctrllimited='true'/>
+    <position joint='jaco_joint_2'  name='pos_act_2' kp="55" ctrlrange='.8 5.46' ctrllimited='true'/>
+    <position joint='jaco_joint_3'  name='pos_act_3' kp="55" ctrlrange='-628 628' ctrllimited='true'/>
+    <position joint='jaco_joint_4'  name='pos_act_4' kp="55" ctrlrange='.5 5.759' ctrllimited='true'/>
+    <position joint='jaco_joint_5'  name='pos_act_5' kp="5"  ctrlrange='-6.28 6.28' ctrllimited='true'/>
+    <position joint='jaco_joint_6'  name='pos_act_6' kp="5"  ctrlrange='1.1344 5.148' ctrllimited='true'/>
+    <position joint='jaco_joint_7'  name='pos_act_7' kp="5"  ctrlrange='-628 628' ctrllimited='true'/>
+
+
+    <position joint='jaco_joint_finger_1' kp="15" name='pos_act_finger_1'  ctrlrange="-6.28 6.28" ctrllimited="true"/>
+    <position joint='jaco_joint_finger_2' kp="15" name='pos_act_finger_2'  ctrlrange="-6.28 6.28" ctrllimited="true"/>
+    <position joint='jaco_joint_finger_3' kp="15" name='pos_act_finger_3'  ctrlrange="-6.28 6.28" ctrllimited="true"/>
+    <position joint='jaco_joint_finger_tip_1' kp="15" name='pos_act_finger_tip_1' ctrlrange="-6.28 6.28" ctrllimited="true"/>
+    <position joint='jaco_joint_finger_tip_2' kp="15" name='pos_act_finger_tip_2' ctrlrange="-6.28 6.28" ctrllimited="true"/>
+    <position joint='jaco_joint_finger_tip_3' kp="15" name='pos_act_finger_tip_3' ctrlrange="-6.28 6.28" ctrllimited="true"/>
+
+
+ </actuator>
 </mujoco>
