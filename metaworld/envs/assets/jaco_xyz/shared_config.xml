@@ -9,35 +9,34 @@
 
     <asset>
 
-    <mesh name="add_base" file="sawyer/base.stl" />
-    <mesh name="pedestal" file="sawyer/pedestal.stl" />
-
-    <mesh name="jaco_link_base" file="jaco_arm/jaco_link_base.stl" />
-    <mesh name="jaco_link_1" file="jaco_arm/jaco_link_1.stl" />
-    <mesh name="jaco_link_2" file="jaco_arm/jaco_link_2.stl" />
-    <mesh name="jaco_link_3" file="jaco_arm/jaco_link_3.stl" />
-    <mesh name="jaco_link_4" file="jaco_arm/jaco_link_4.stl" />
-    <mesh name="jaco_link_5" file="jaco_arm/jaco_link_5.stl" />
-    <mesh name="jaco_link_hand" file="jaco_arm/jaco_link_hand.stl"/>
-    <mesh name="jaco_link_finger_1" file="jaco_arm/jaco_link_finger_1.stl"/>
-    <mesh name="jaco_link_finger_2" file="jaco_arm/jaco_link_finger_2.stl"/>
-    <mesh name="jaco_link_finger_3" file="jaco_arm/jaco_link_finger_3.stl"/>  
+    <mesh name="base" file="jaco_arm/base.stl" />
+    <mesh name="shoulder" file="jaco_arm/shoulder.stl" />
+    <mesh name="arm" file="jaco_arm/arm.stl" />
+    <mesh name="arm_half_1" file="jaco_arm/arm_half_1.stl" />
+    <mesh name="arm_half_2" file="jaco_arm/arm_half_2.stl" />
+    <mesh name="forearm" file="jaco_arm/forearm.stl" />
+    <mesh name="wrist_spherical_1" file="jaco_arm/wrist_spherical_1.stl" />
+    <mesh name="wrist_spherical_2" file="jaco_arm/wrist_spherical_2.stl" />
+    <mesh name="hand_3finger" file="jaco_arm/hand_3finger.stl" />
+    <mesh name="finger_proximal" file="jaco_arm/finger_proximal.stl" />
+    <mesh name="finger_distal" file="jaco_arm/finger_distal.stl" />  
 
 	<mesh name="mug_mesh" file="objects/mug.stl"  scale="0.0006 0.0006 0.0006"/>
-        <texture type="skybox" builtin="gradient" rgb1=".50 .495 .48" rgb2=".50 .495 .48" width="32" height="32"></texture>
-        <texture file="marble.png" name="marble" />
-        <texture file="navy_blue.png" name="navy_blue" />
-        <texture file="wood_light.png" name="table_texture" type="2d"/>
-        <texture file="wood_light.png" name="wood_texture"/>
-        <texture file="tennis.png" name="tennis_green"/>
 
-        <material name="marble" shininess="0.3" rgba="0.9 0.9 0.9 1" specular="1" texture="marble"/>
-        <material name="navy_blue" shininess="0.3" rgba="0.9 0.9 0.9 1" specular="1" texture="navy_blue"/>
-        <material name="tennis_green" shininess="0.3" rgba="0.9 0.9 0.9 1" specular="1" texture="tennis_green"/>
-        <material name="wood_material" rgba="1 1 1 1" shininess="0.1" specular="0.4" texture="wood_texture" />
-        <material name="table_material" rgba="1 1 1 1" shininess="0.1" specular="0.4" texture="table_texture" />
+    <texture type="skybox" builtin="gradient" rgb1=".50 .495 .48" rgb2=".50 .495 .48" width="32" height="32"></texture>
+    <texture file="marble.png" name="marble" />
+    <texture file="navy_blue.png" name="navy_blue" />
+    <texture file="wood_light.png" name="table_texture" type="2d"/>
+    <texture file="wood_light.png" name="wood_texture"/>
+    <texture file="tennis.png" name="tennis_green"/>
 
-        <material name="MatViz" specular="1" shininess=".1" reflectance="0.5" rgba=".07 .07 .1 1"/>
+    <material name="marble" shininess="0.3" rgba="0.9 0.9 0.9 1" specular="1" texture="marble"/>
+    <material name="navy_blue" shininess="0.3" rgba="0.9 0.9 0.9 1" specular="1" texture="navy_blue"/>
+    <material name="tennis_green" shininess="0.3" rgba="0.9 0.9 0.9 1" specular="1" texture="tennis_green"/>
+    <material name="wood_material" rgba="1 1 1 1" shininess="0.1" specular="0.4" texture="wood_texture" />
+    <material name="table_material" rgba="1 1 1 1" shininess="0.1" specular="0.4" texture="table_texture" />
+
+    <material name="MatViz" specular="1" shininess=".1" reflectance="0.5" rgba=".07 .07 .1 1"/>
 
     </asset>
 
@@ -155,7 +154,7 @@
         </default> -->
     </default>
 
-    <equality>
+    <!-- <equality>
         <weld body1="mocap" body2="jaco_link_hand" solref="0.02 1"></weld>
-    </equality>
+    </equality> -->
 </mujoco>
