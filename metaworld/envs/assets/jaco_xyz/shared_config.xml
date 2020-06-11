@@ -136,8 +136,8 @@
         <weld body1="mocap" body2="jaco_link_hand" solref="0.02 1"></weld>
     </equality> -->
 
-      <actuator>
-  <position joint='jaco_joint_1'  name='pos_act_1' kp="55"  ctrlrange='-628 628' ctrllimited='true'/>
+    <actuator>
+    <position joint='jaco_joint_1'  name='pos_act_1' kp="55"  ctrlrange='-628 628' ctrllimited='true'/>
     <position joint='jaco_joint_2'  name='pos_act_2' kp="55" ctrlrange='.8 5.46' ctrllimited='true'/>
     <position joint='jaco_joint_3'  name='pos_act_3' kp="55" ctrlrange='-628 628' ctrllimited='true'/>
     <position joint='jaco_joint_4'  name='pos_act_4' kp="55" ctrlrange='.5 5.759' ctrllimited='true'/>
@@ -145,13 +145,12 @@
     <position joint='jaco_joint_6'  name='pos_act_6' kp="5"  ctrlrange='1.1344 5.148' ctrllimited='true'/>
     <position joint='jaco_joint_7'  name='pos_act_7' kp="5"  ctrlrange='-628 628' ctrllimited='true'/>
 
-
-    <position joint='jaco_joint_finger_1' kp="15" name='pos_act_finger_1'  ctrlrange="-6.28 6.28" ctrllimited="true"/>
+    <!-- <position joint='jaco_joint_finger_1' kp="15" name='pos_act_finger_1'  ctrlrange="-6.28 6.28" ctrllimited="true"/>
     <position joint='jaco_joint_finger_2' kp="15" name='pos_act_finger_2'  ctrlrange="-6.28 6.28" ctrllimited="true"/>
     <position joint='jaco_joint_finger_3' kp="15" name='pos_act_finger_3'  ctrlrange="-6.28 6.28" ctrllimited="true"/>
     <position joint='jaco_joint_finger_tip_1' kp="15" name='pos_act_finger_tip_1' ctrlrange="-6.28 6.28" ctrllimited="true"/>
     <position joint='jaco_joint_finger_tip_2' kp="15" name='pos_act_finger_tip_2' ctrlrange="-6.28 6.28" ctrllimited="true"/>
-    <position joint='jaco_joint_finger_tip_3' kp="15" name='pos_act_finger_tip_3' ctrlrange="-6.28 6.28" ctrllimited="true"/>
+    <position joint='jaco_joint_finger_tip_3' kp="15" name='pos_act_finger_tip_3' ctrlrange="-6.28 6.28" ctrllimited="true"/> -->
 
 
  </actuator>

@@ -14,96 +14,108 @@ Usage:
 -->
 
 <mujoco model="jaco">
- 
-    <camera pos="0 0 3.2" name="topview" />
 
-    <!--<geom name="floor" type="plane" pos="0 0 -.9" size="10 10 10"-->
-          <!--rgba="0 0 0 1" contype="15" conaffinity="15" />-->
-    <!--<geom name="tableTop" type="box" pos="0 0.6 -0.45" size="0.4 0.2 0.45"
-          rgba=".6 .6 .5 1" contype="15" conaffinity="15" />-->
-    <!-- <geom name="tableTop" type="plane" pos="0 0.8 0" size="0.4 0.4 0.5"
-          rgba=".6 .6 .5 1" contype="1" conaffinity="1" friction="2 0.1 0.002" material="light_wood_v3"/> -->
+  <camera pos="0 0 3.2" name="topview" />
 
-    <!-- robot -->
+  <!--<geom name="floor" type="plane" pos="0 0 -.9" size="10 10 10"-->
+  <!--rgba="0 0 0 1" contype="15" conaffinity="15" />-->
+  <!--<geom name="tableTop" type="box" pos="0 0.6 -0.45" size="0.4 0.2 0.45" rgba=".6 .6 .5 1" contype="15" conaffinity="15" />-->
+  <geom name="tableTop" type="plane" pos="0 0.5 0" size="0.4 0.5 0.5" rgba=".6 .6 .5 1" contype="1" conaffinity="1" friction="2 0.1 0.002" material="light_wood_v3"/>
 
-    <geom name='base' type="mesh" pos="0 0 0" euler="0 0 6.2831" rgba="0.17 0.17 0.17 1" mesh="base" />
 
-    <body name="jaco_link_1" pos="0 0 0.15675" quat="0 0 1 0">
-       <inertial pos="0 -0.002 -0.0605" mass="0.7477" diaginertia="0.00152032 0.00152032 0.00059816" />
-       <joint name="jaco_joint_1" pos="0 0 0" axis="0 0 1" limited="true" range="-6.28319 6.28319" />
-       <geom name="jaco_link_1" type="mesh" rgba="0.17 0.17 0.17 1" mesh="shoulder" />
+  <!-- reference coordinate frame -->
+  <!--
+    <geom name="coord_x" type="capsule" fromto="1 1 1 1.4 1 1" size=".002" condim=1 friction=0 rgba="1 0 0 1" mass="0"/>
+    <geom name="coord_y" type="capsule" fromto="1 1 1 1 1.4 1" size=".002" condim=1 friction=0 rgba="0 1 0 1" mass="0"/>
+    <geom name="coord_z" type="capsule" fromto="1 1 1 1 1 1.4" size=".002" condim=1 friction=0 rgba="0 0 1 1" mass="0"/> -->
 
-     <body name="jaco_link_2"  pos="0 0.0016 -0.11875" quat="0 0 -0.707107 0.707107">
-       <inertial pos="0 -0.103563 0" quat="0.707107 0.707107 0 0" mass="0.8447" diaginertia="0.00247074 0.00247074 0.000380115" />
-       <joint name="jaco_joint_2" pos="0 0 0" axis="0 0 1" limited="true" range="0.820305 5.46288" />
-       <geom name="jaco_link_2" type="mesh" rgba="0.17 0.17 0.17 1" mesh="arm_half_1" />
+  <!-- robot -->
+
+  <geom name='base' type="mesh" pos="0 0 0" euler="0 0 0" rgba="0.17 0.17 0.17 1" mesh="base" />
+
+  <body name="jaco_link_1" pos="0 0 0.15675" quat="0 0 1 0">
+    <inertial pos="0 -0.002 -0.0605" mass="0.7477" diaginertia="0.00152032 0.00152032 0.00059816" />
+    <joint name="jaco_joint_1" pos="0 0 0" axis="0 0 1" limited="true" range="-6.28319 6.28319" />
+    <geom name="jaco_link_1" type="mesh" rgba="0.17 0.17 0.17 1" mesh="shoulder" />
+
+    <body name="jaco_link_2" pos="0 0.0016 -0.11875" quat="0 0 -0.707107 0.707107">
+      <inertial pos="0 -0.103563 0" quat="0.707107 0.707107 0 0" mass="0.8447" diaginertia="0.00247074 0.00247074 0.000380115" />
+      <joint name="jaco_joint_2" pos="0 0 0" axis="0 0 1" limited="true" range="0.820305 5.46288" />
+      <geom name="jaco_link_2" type="mesh" rgba="0.17 0.17 0.17 1" mesh="arm_half_1" />
 
       <body name="jaco_link_3" pos="0 -0.205 0" quat="0.707107 -0.707107 0 0">
         <inertial pos="0 0 -0.102245" mass="0.8447" diaginertia="0.00247074 0.00247074 0.000380115" />
         <joint name="jaco_joint_3" pos="0 0 0" axis="0 0 1" limited="true" range="-6.28319 6.28319" />
         <geom name="jaco_link_3" type="mesh" rgba="0.17 0.17 0.17 1" mesh="arm_half_2" />
 
-      <body name="jaco_link_4"  pos="0 0 -0.205" quat="0 0 0.707107 0.707107">
-        <inertial pos="0 0.081 -0.0086" quat="0.707107 0.707107 0 0" mass="0.6763" diaginertia="0.00142022 0.00142022 0.000304335" />
-        <joint name="jaco_joint_4" pos="0 0 0" axis="0 0 1" limited="true" range="0.523599 5.75959" />
-        <geom name="jaco_link_4" type="mesh" rgba="0.17 0.17 0.17 1" mesh="forearm" />
+        <body name="jaco_link_4" pos="0 0 -0.205" quat="0 0 0.707107 0.707107">
+          <inertial pos="0 0.081 -0.0086" quat="0.707107 0.707107 0 0" mass="0.6763" diaginertia="0.00142022 0.00142022 0.000304335" />
+          <joint name="jaco_joint_4" pos="0 0 0" axis="0 0 1" limited="true" range="0.523599 5.75959" />
+          <geom name="jaco_link_4" type="mesh" rgba="0.17 0.17 0.17 1" mesh="forearm" />
 
-      <body name="jaco_link_5"  pos="0 0.2073 -0.0114" quat="0 0 -0.707107 0.707107">
-         <inertial pos="0 0.00288489 -0.0541933" mass="0.463" diaginertia="0.000432132 0.000432132 9.26e-05" />
-         <joint name="jaco_joint_5" pos="0 0 0" axis="0 0 1" limited="true" range="-6.28319 6.28319" />
-         <geom name="jaco_link_5" type="mesh" rgba="0.17 0.17 0.17 1" mesh="wrist_spherical_1" />
+          <body name="jaco_link_5" pos="0 0.2073 -0.0114" quat="0 0 -0.707107 0.707107">
+            <inertial pos="0 0.00288489 -0.0541933" mass="0.463" diaginertia="0.000432132 0.000432132 9.26e-05" />
+            <joint name="jaco_joint_5" pos="0 0 0" axis="0 0 1" limited="true" range="-6.28319 6.28319" />
+            <geom name="jaco_link_5" type="mesh" rgba="0.17 0.17 0.17 1" mesh="wrist_spherical_1" />
 
-      <body name="jaco_link_6" pos="0 0 -0.10375" quat="0 0 0.707107 0.707107">
-         <inertial pos="0 0.0497209 -0.00285628" quat="0.707107 0.707107 0 0" mass="0.463" diaginertia="0.000432132 0.000432132 9.26e-05" />
-         <joint name="jaco_joint_6" pos="0 0 0" axis="0 0 1" limited="true" range="1.13446 5.14872" />
-         <geom name="jaco_link_6" type="mesh" rgba="0.17 0.17 0.17 1" mesh="wrist_spherical_2" />
+            <body name="jaco_link_6" pos="0 0 -0.10375" quat="0 0 0.707107 0.707107">
+              <inertial pos="0 0.0497209 -0.00285628" quat="0.707107 0.707107 0 0" mass="0.463" diaginertia="0.000432132 0.000432132 9.26e-05" />
+              <joint name="jaco_joint_6" pos="0 0 0" axis="0 0 1" limited="true" range="1.13446 5.14872" />
+              <geom name="jaco_link_6" type="mesh" rgba="0.17 0.17 0.17 1" mesh="wrist_spherical_2" />
 
-      <body name="jaco_link_7" pos="0 0.10375 0" quat="0 0 -0.707107 0.707107">
-         <inertial pos="0 0 -0.06" quat="0.5 0.5 -0.5 0.5" mass="0.99" diaginertia="0.0005816 0.000345324 0.000345324" />
-         <joint name="jaco_joint_7" pos="0 0 0" axis="0 0 1" limited="true" range="-6.28319 6.28319" />
-         <geom name="jaco_link_7" type="mesh" rgba="0.73 0.73 0.73 1" mesh="hand_3finger" />
+              <body name="jaco_link_7" pos="0 0.10375 0" quat="0 0 -0.707107 0.707107">
+                <inertial pos="0 0 -0.06" quat="0.5 0.5 -0.5 0.5" mass="0.99" diaginertia="0.0005816 0.000345324 0.000345324" />
+                <joint name="jaco_joint_7" pos="0 0 0" axis="0 0 1" limited="true" range="-6.28319 6.28319" />
+                <geom name="jaco_link_7" type="mesh" rgba="0.73 0.73 0.73 1" mesh="hand_3finger" />
 
-      <body name="jaco_link_finger_1" pos="0.00279 0.03126 -0.11467" quat="0.379408 -0.662973 -0.245899 0.596699">
-         <inertial pos="0.022 0 0" mass="0.01" diaginertia="7.89997e-07 7.89997e-07 8e-08" />
-         <joint name="jaco_joint_finger_1" pos="0 0 0" axis="0 0 1" limited="true" range="0 1.51" />
-         <geom name="jaco_link_finger_1" type="mesh" rgba="0.17 0.17 0.17 1" mesh="finger_proximal" />
+                <body name="jaco_link_finger_1" pos="0.00279 0.03126 -0.11467" quat="0.379408 -0.662973 -0.245899 0.596699">
+                  <inertial pos="0.022 0 0" mass="0.01" diaginertia="7.89997e-07 7.89997e-07 8e-08" />
+                  <joint name="jaco_joint_finger_1" pos="0 0 0" axis="0 0 1" limited="true" range="0 1.51" />
+                  <geom name="jaco_link_finger_1" type="mesh" rgba="0.17 0.17 0.17 1" mesh="finger_proximal" />
 
-      <body name="jaco_link_finger_tip_1" pos="0.044 -0.003 0">
-          <inertial pos="0.022 0 0" mass="0.01" diaginertia="7.89997e-07 7.89997e-07 8e-08" />
-          <joint name="jaco_joint_finger_tip_1" pos="0 0 0" axis="0 0 1" limited="true" range="0 2" />
-          <geom name="jaco_link_finger_tip_1" type="mesh" rgba="0.73 0.73 0.73 1" mesh="finger_distal" />
-        </body>
-        </body>
-       <body name="jaco_link_finger_2" pos="0.02226 -0.02707 -0.11482" quat="0.659653 -0.37146 0.601679 -0.254671">
-           <inertial pos="0.022 0 0" mass="0.01" diaginertia="7.89997e-07 7.89997e-07 8e-08" />
-           <joint name="jaco_joint_finger_2" pos="0 0 0" axis="0 0 1" limited="true" range="0 1.51" />
-           <geom name="jaco_link_finger_2" type="mesh" rgba="0.17 0.17 0.17 1" mesh="finger_proximal" />
+                  <body name="jaco_link_finger_tip_1" pos="0.044 -0.003 0">
+                    <inertial pos="0.022 0 0" mass="0.01" diaginertia="7.89997e-07 7.89997e-07 8e-08" />
+                    <joint name="jaco_joint_finger_tip_1" pos="0 0 0" axis="0 0 1" limited="true" range="0 2" />
+                    <geom name="jaco_link_finger_tip_1" type="mesh" rgba="0.73 0.73 0.73 1" mesh="finger_distal" />
+                  </body>
+                </body>
+                <body name="jaco_link_finger_2" pos="0.02226 -0.02707 -0.11482" quat="0.659653 -0.37146 0.601679 -0.254671">
+                  <inertial pos="0.022 0 0" mass="0.01" diaginertia="7.89997e-07 7.89997e-07 8e-08" />
+                  <joint name="jaco_joint_finger_2" pos="0 0 0" axis="0 0 1" limited="true" range="0 1.51" />
+                  <geom name="jaco_link_finger_2" type="mesh" rgba="0.17 0.17 0.17 1" mesh="finger_proximal" />
 
-       <body name="jaco_link_finger_tip_2"  pos="0.044 -0.003 0">
-           <inertial pos="0.022 0 0" mass="0.01" diaginertia="7.89997e-07 7.89997e-07 8e-08" />
-           <joint name="jaco_joint_finger_tip_2" pos="0 0 0" axis="0 0 1" limited="true" range="0 2" />
-           <geom name="jaco_link_finger_tip_2" type="mesh" rgba="0.73 0.73 0.73 1" mesh="finger_distal" />
+                  <body name="jaco_link_finger_tip_2" pos="0.044 -0.003 0">
+                    <inertial pos="0.022 0 0" mass="0.01" diaginertia="7.89997e-07 7.89997e-07 8e-08" />
+                    <joint name="jaco_joint_finger_tip_2" pos="0 0 0" axis="0 0 1" limited="true" range="0 2" />
+                    <geom name="jaco_link_finger_tip_2" type="mesh" rgba="0.73 0.73 0.73 1" mesh="finger_distal" />
 
-        </body>
-        </body>
-       <body name="jaco_link_finger_3" pos="-0.02226 -0.02707 -0.11482" quat="0.601679 -0.254671 0.659653 -0.37146">
-            <inertial pos="0.022 0 0" mass="0.01" diaginertia="7.89997e-07 7.89997e-07 8e-08" />
-            <joint name="jaco_joint_finger_3" pos="0 0 0" axis="0 0 1" limited="true" range="0 1.51" />
-            <geom name="jaco_link_finger_3" type="mesh" rgba="0.17 0.17 0.17 1" mesh="finger_proximal" />
+                  </body>
+                </body>
+                <body name="jaco_link_finger_3" pos="-0.02226 -0.02707 -0.11482" quat="0.601679 -0.254671 0.659653 -0.37146">
+                  <inertial pos="0.022 0 0" mass="0.01" diaginertia="7.89997e-07 7.89997e-07 8e-08" />
+                  <joint name="jaco_joint_finger_3" pos="0 0 0" axis="0 0 1" limited="true" range="0 1.51" />
+                  <geom name="jaco_link_finger_3" type="mesh" rgba="0.17 0.17 0.17 1" mesh="finger_proximal" />
 
-       <body name="jaco_link_finger_tip_3" pos="0.044 -0.003 0">
-             <inertial pos="0.022 0 0" mass="0.01" diaginertia="7.89997e-07 7.89997e-07 8e-08" />
-             <joint name="jaco_joint_finger_tip_3" pos="0 0 0" axis="0 0 1" limited="true" range="0 2" />
-             <geom name="jaco_link_finger_tip_3" type="mesh" rgba="0.73 0.73 0.73 1" mesh="finger_distal" />
-        </body>
-        </body>
+                  <body name="jaco_link_finger_tip_3" pos="0.044 -0.003 0">
+                    <inertial pos="0.022 0 0" mass="0.01" diaginertia="7.89997e-07 7.89997e-07 8e-08" />
+                    <joint name="jaco_joint_finger_tip_3" pos="0 0 0" axis="0 0 1" limited="true" range="0 2" />
+                    <geom name="jaco_link_finger_tip_3" type="mesh" rgba="0.73 0.73 0.73 1" mesh="finger_distal" />
+                  </body>
+                </body>
 
+              </body>
+            </body>
+          </body>
         </body>
-        </body>
-        </body>
-        </body>
-        </body>
-        </body>
-        </body>
+      </body>
+    </body>
+  </body>
+
+  <body mocap="true" name="mocap" pos="0 0 0">
+    <!--For debugging, set the alpha to 1-->
+    <!--<geom conaffinity="0" contype="0" pos="0 0 0" rgba="0.5 0.5 0.5 1" size="0.1 0.02 0.02" type="box"></geom>-->
+    <geom conaffinity="0" contype="0" pos="0 0 0" rgba="0.0 0.5 0.5 0" size="0.01" type="sphere"></geom>
+    <site name="mocap" pos="0 0 0" rgba="0.0 0.5 0.5 0" size="0.01" type="sphere"></site>
+  </body>
 
 </mujoco>

@@ -26,7 +26,7 @@ class JacoMocapBase(MujocoEnv, metaclass=abc.ABCMeta):
         self.reset_mocap_welds()
 
     def get_endeff_pos(self):
-        return self.data.get_body_xpos('jaco_link_hand').copy()
+        return self.data.get_body_xpos('jaco_link_7').copy()
 
     def get_gripper_pos(self):
         return np.array([self.data.qpos[7]])
