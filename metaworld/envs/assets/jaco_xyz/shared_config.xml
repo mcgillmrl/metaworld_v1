@@ -94,8 +94,16 @@
   <!-- <optionfor iterations="50" integrator="Euler" timestep="0.002" cone="elliptic" /> -->
   <option integrator="RK4" solver="PGS" timestep="0.001" gravity="0 0 -9.8" iterations="50"/>
 
-  <!-- <equality>
-        <weld body1="mocap" body2="jaco_link_hand" solref="0.02 1"></weld>
-    </equality> -->
+  <default>
+    <!-- <joint limited="true" damping="1" stiffness="0" armature=".1" user="0"/> -->
+    <geom solref="0.02 1" solimp="1 1 0" />
+    <motor ctrllimited="true" ctrlrange="-1 1"/>
+    <position ctrllimited="true"/>
+
+  </default>
+
+  <equality>
+    <weld body1="mocap" body2="jaco_link_7" solref="0.02 1"></weld>
+  </equality>
 
 </mujoco>
