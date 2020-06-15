@@ -65,8 +65,9 @@ Usage:
 
               <body name="jaco_link_7" pos="0 0.10375 0" quat="0 0 -0.707107 0.707107">
                 <inertial pos="0 0 -0.06" quat="0.5 0.5 -0.5 0.5" mass="0.99" diaginertia="0.0005816 0.000345324 0.000345324" />
-                <joint name="jaco_joint_7" pos="0 0 0" axis="0 0 1" limited="true" range="-6.28319 6.28319" />
+                <site name="jaco_joint_7" pos="0.04 0 0" size="0.01" rgba='1 1 1 0' />
                 <geom name="jaco_link_7" type="mesh" rgba="0.73 0.73 0.73 1" mesh="hand_3finger" />
+
 
                 <body name="jaco_link_finger_1" pos="0.00279 0.03126 -0.11467" quat="0.379408 -0.662973 -0.245899 0.596699">
                   <inertial pos="0.022 0 0" mass="0.01" diaginertia="7.89997e-07 7.89997e-07 8e-08" />
