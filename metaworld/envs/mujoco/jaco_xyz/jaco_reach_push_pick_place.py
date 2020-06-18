@@ -147,6 +147,8 @@ class JacoReachPushPickPlaceEnv(JacoXYZEnv):
             self.set_xyz_action_rotz(action[:4])
         else:
             self.set_xyz_action_rot(action[:7])
+        # Melissa : Do we just simulate raw actions, or rotationally
+        # modified?
         self.do_simulation(action)
         # The marker seems to get reset every time you do a simulation
         self._set_goal_marker(self._state_goal)
@@ -293,7 +295,7 @@ class JacoReachPushPickPlaceEnv(JacoXYZEnv):
         self._set_obj_xyz(self.obj_init_pos)
         #self._set_obj_xyz_quat(self.obj_init_pos, self.obj_init_angle)
         self.curr_path_length = 0
-        self.maxReachDist = 1.0  #np.linalg.norm(self.init_fingerCOM - np.array(self._state_goal))
+        self.maxReachDist = np.linalg.norm(self.init_fingerCOM - np.array(self._state_goal))
         self.maxPushDist = np.linalg.norm(self.obj_init_pos[:2] -
                                           np.array(self._state_goal)[:2])
         self.maxPlacingDist = np.linalg.norm(
@@ -320,6 +322,9 @@ class JacoReachPushPickPlaceEnv(JacoXYZEnv):
             call `set_goal_` then reset the environment.')
 
     def _reset_hand(self):
+        # Some initial joint configurations that seem reasonable
+        # Since controlling with the position controller is a little
+        # finicky
         self.sim.data.set_joint_qpos('jaco_joint_1', -1.09)
         self.sim.data.set_joint_qpos('jaco_joint_2', 1.6)
         self.sim.data.set_joint_qpos('jaco_joint_3', 4.5)
@@ -327,19 +332,17 @@ class JacoReachPushPickPlaceEnv(JacoXYZEnv):
         self.sim.data.set_joint_qpos('jaco_joint_5', 4.6)
         self.sim.data.set_joint_qpos('jaco_joint_6', 3.16)
 
-
-
         for _ in range(10):
             self.data.set_mocap_pos('mocap', [-0.5, 0.4, 0.45])
             self.data.set_mocap_quat('mocap', np.array([1, 0, 1, 0]))
             self.do_simulation([1, 0, 0, 0, 0, 0], self.frame_skip)
 
-
-
         # finger1, finger2, finger3 = self.get_site_pos('finger1'), self.get_site_pos('finger2'), \
         #         self.get_site_pos('finger3')
+        # This joint was set to site, for now lets keep it as a joint it distablizes things
+        wrist = self.get_site_pos('jaco_joint_7')
         # How to set for three-fingered hand?
-        self.init_fingerCOM = [0,0,0]#(finger1 + finger2 + finger3)/3
+        self.init_fingerCOM = wrist
         self.pickCompleted = False
 
     def get_site_pos(self, siteName):
@@ -363,7 +366,7 @@ class JacoReachPushPickPlaceEnv(JacoXYZEnv):
 
         # finger1, finger2, finger3 = self.get_site_pos('finger1'), self.get_site_pos('finger2'), \
         #         self.get_site_pos('finger3')
-        fingerCOM = [0,0,0]#(finger1 + finger2 + finger3)/3
+        fingerCOM = self.get_site_pos('jaco_joint_7')
 
         heightTarget = self.heightTarget
         goal = self._state_goal

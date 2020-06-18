@@ -5,7 +5,7 @@
     <worldbody>
         <include file="jaco_xyz_base.xml"></include>
 
-        <body name="obj" pos="0 0.6 0.02">
+        <body name="obj" pos="0 0.6 -0.038">
 
             <joint name="objjoint" type="free" limited='false' damping="0." armature="0."/>
 
