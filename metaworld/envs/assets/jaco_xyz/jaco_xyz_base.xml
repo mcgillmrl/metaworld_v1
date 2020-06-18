@@ -20,7 +20,7 @@ Usage:
   <!--<geom name="floor" type="plane" pos="0 0 -.9" size="10 10 10"-->
   <!--rgba="0 0 0 1" contype="15" conaffinity="15" />-->
   <!--<geom name="tableTop" type="box" pos="0 0.6 -0.45" size="0.4 0.2 0.45" rgba=".6 .6 .5 1" contype="15" conaffinity="15" />-->
-  <geom name="tableTop" type="plane" pos="0 0.5 0" size="0.4 0.5 0.5" rgba=".6 .6 .5 1" contype="1" conaffinity="1" friction="2 0.1 0.002" material="light_wood_v3"/>
+  <geom name="tableTop" type="plane" pos="0 0.6 -0.05" size="0.4 0.5 0.5" rgba=".6 .6 .5 1" contype="1" conaffinity="1" friction="2 0.1 0.002" material="light_wood_v3"/>
 
 
   <!-- reference coordinate frame -->
@@ -112,11 +112,11 @@ Usage:
     </body>
   </body>
 
-  <body mocap="true" name="mocap" pos="0 0 0">
+  <body mocap="true" name="mocap" pos="0 0.10375 0" quat="0 0 -0.707107 0.707107">
     <!--For debugging, set the alpha to 1-->
     <!--<geom conaffinity="0" contype="0" pos="0 0 0" rgba="0.5 0.5 0.5 1" size="0.1 0.02 0.02" type="box"></geom>-->
-    <geom conaffinity="0" contype="0" pos="0 0 0" rgba="0.0 0.5 0.5 0" size="0.01" type="sphere"></geom>
-    <site name="mocap" pos="0 0 0" rgba="0.0 0.5 0.5 0" size="0.01" type="sphere"></site>
+    <geom conaffinity="0" contype="0" pos="0 0.10375 0" rgba="0.0 0.5 0.5 0" size="0.01" type="sphere"></geom>
+    <site name="mocap" pos="0 0.10375 0" rgba="0.0 0.5 0.5 0" size="0.01" type="sphere"></site>
   </body>
 
 </mujoco>

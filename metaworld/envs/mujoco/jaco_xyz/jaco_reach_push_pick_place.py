@@ -43,7 +43,7 @@ class JacoReachPushPickPlaceEnv(JacoXYZEnv):
         self.init_config = {
             'obj_init_angle': .3,
             'obj_init_pos': np.array([0, 0.6, 0.02]),
-            'hand_init_pos': np.array([0, .6, .2]),
+            'hand_init_pos': np.array([-0.29, 0.06749773 , 0.15780778]),
         }
         # we only do one task from [pick_place, reach, push]
         # per instance of JacoReachPushPickPlaceEnv.
@@ -78,8 +78,8 @@ class JacoReachPushPickPlaceEnv(JacoXYZEnv):
         self.task_types = task_types
         if rotMode == 'fixed':
             self.action_space = Box(
-                np.array([-1, -1, -1, -1]),
-                np.array([1, 1, 1, 1]),
+                np.array([-1, -1, -1, -1, -1, -1]),
+                np.array([1, 1, 1, 1, 1, 1]),
             )
         elif rotMode == 'rotz':
             self.action_rot_scale = 1. / 50
@@ -147,7 +147,7 @@ class JacoReachPushPickPlaceEnv(JacoXYZEnv):
             self.set_xyz_action_rotz(action[:4])
         else:
             self.set_xyz_action_rot(action[:7])
-        self.do_simulation([action[-1], -action[-1]])
+        self.do_simulation(action)
         # The marker seems to get reset every time you do a simulation
         self._set_goal_marker(self._state_goal)
         ob = self._get_obs()
@@ -156,6 +156,9 @@ class JacoReachPushPickPlaceEnv(JacoXYZEnv):
             action, obs_dict, mode=self.rewMode, task_type=self.task_type)
         self.curr_path_length += 1
         #info = self._get_info()
+        # print('Actions ', action)
+        # print('Joint pose :', self.sim.data.qpos)
+        # print('Mocap pose :', self.sim.data.get_mocap_pos('mocap'))
 
         goal_dist = placingDist if self.task_type == 'pick_place' else pushDist
         if self.task_type == 'reach':
@@ -317,14 +320,26 @@ class JacoReachPushPickPlaceEnv(JacoXYZEnv):
             call `set_goal_` then reset the environment.')
 
     def _reset_hand(self):
+        self.sim.data.set_joint_qpos('jaco_joint_1', -1.09)
+        self.sim.data.set_joint_qpos('jaco_joint_2', 1.6)
+        self.sim.data.set_joint_qpos('jaco_joint_3', 4.5)
+        self.sim.data.set_joint_qpos('jaco_joint_4', -1.08)
+        self.sim.data.set_joint_qpos('jaco_joint_5', 4.6)
+        self.sim.data.set_joint_qpos('jaco_joint_6', 3.16)
+
+
+
         for _ in range(10):
-            self.data.set_mocap_pos('mocap', self.hand_init_pos)
+            self.data.set_mocap_pos('mocap', [-0.5, 0.4, 0.45])
             self.data.set_mocap_quat('mocap', np.array([1, 0, 1, 0]))
-            self.do_simulation([-1, 1], self.frame_skip)
-        finger1, finger2, finger3 = self.get_site_pos('finger1'), self.get_site_pos('finger2'), \
-                self.get_site_pos('finger3')
+            self.do_simulation([1, 0, 0, 0, 0, 0], self.frame_skip)
+
+
+
+        # finger1, finger2, finger3 = self.get_site_pos('finger1'), self.get_site_pos('finger2'), \
+        #         self.get_site_pos('finger3')
         # How to set for three-fingered hand?
-        self.init_fingerCOM = (finger1 + finger2 + finger3)/3
+        self.init_fingerCOM = [0,0,0]#(finger1 + finger2 + finger3)/3
         self.pickCompleted = False
 
     def get_site_pos(self, siteName):
@@ -332,7 +347,6 @@ class JacoReachPushPickPlaceEnv(JacoXYZEnv):
         return self.data.site_xpos[_id].copy()
 
     def compute_rewards(self, actions, obsBatch):
-        #Required by HER-TD3
         assert isinstance(obsBatch, dict) == True
         obsList = obsBatch['state_observation']
         rewards = [
@@ -347,9 +361,9 @@ class JacoReachPushPickPlaceEnv(JacoXYZEnv):
 
         objPos = obs[3:6]
 
-        finger1, finger2, finger3 = self.get_site_pos('finger1'), self.get_site_pos('finger2'), \
-                self.get_site_pos('finger3')
-        fingerCOM = (finger1 + finger2 + finger3)/3
+        # finger1, finger2, finger3 = self.get_site_pos('finger1'), self.get_site_pos('finger2'), \
+        #         self.get_site_pos('finger3')
+        fingerCOM = [0,0,0]#(finger1 + finger2 + finger3)/3
 
         heightTarget = self.heightTarget
         goal = self._state_goal

@@ -94,7 +94,7 @@ class MujocoEnv(gym.Env):
 
 		# For Jaco reach/push
 		# Bring the camera closer
-		self.viewer.cam.distance = 1.0
+		# self.viewer.cam.distance = 1.0
 
 		# For button-press
 		# self.viewer.cam.azimuth = 180
