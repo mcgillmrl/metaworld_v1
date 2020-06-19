@@ -53,6 +53,7 @@ from metaworld.envs.mujoco.sawyer_xyz.sawyer_plate_slide_side import SawyerPlate
 from metaworld.envs.mujoco.sawyer_xyz.sawyer_plate_slide_back_side import SawyerPlateSlideBackSideEnv
 
 from metaworld.envs.mujoco.jaco_xyz.jaco_reach_push_pick_place import JacoReachPushPickPlaceEnv
+from metaworld.envs.mujoco.jaco_xyz.jaco_drawer_close import JacoDrawerCloseEnv
 
 
 ALL_ENVIRONMENTS = OrderedDict((
@@ -63,6 +64,7 @@ ALL_ENVIRONMENTS = OrderedDict((
     ('door-open-v1', SawyerDoorEnv),
     ('drawer-open-v1', SawyerDrawerOpenEnv),
     ('drawer-close-v1', SawyerDrawerCloseEnv),
+    ('jaco-drawer-close-v1', JacoDrawerCloseEnv),
     ('button-press-topdown-v1', SawyerButtonPressTopdownEnv),
     ('peg-insert-side-v1', SawyerPegInsertionSideEnv),
     ('window-open-v1', SawyerWindowOpenEnv),
@@ -117,6 +119,7 @@ EASY_MODE_CLS_DICT = OrderedDict((
     ('door-open-v1', SawyerDoorEnv),
     ('drawer-open-v1', SawyerDrawerOpenEnv),
     ('drawer-close-v1', SawyerDrawerCloseEnv),
+    ('jaco-drawer-close-v1', JacoDrawerCloseEnv),
     ('button-press-topdown-v1', SawyerButtonPressTopdownEnv),
     ('peg-insert-side-v1', SawyerPegInsertionSideEnv),
     ('window-open-v1', SawyerWindowOpenEnv),
@@ -230,6 +233,7 @@ HARD_MODE_CLS_DICT = OrderedDict((
             ('door-open-v1', SawyerDoorEnv),
             ('drawer-open-v1', SawyerDrawerOpenEnv),
             ('drawer-close-v1', SawyerDrawerCloseEnv),
+            ('jaco-drawer-close-v1', JacoDrawerCloseEnv),
             ('button-press-topdown-v1', SawyerButtonPressTopdownEnv),
             ('peg-insert-side-v1', SawyerPegInsertionSideEnv),
             ('window-open-v1', SawyerWindowOpenEnv),

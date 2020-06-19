@@ -17,7 +17,7 @@ class JacoReachPushPickPlaceEnv(JacoXYZEnv):
             self,
             random_init=False,
             task_types=['pick_place', 'reach', 'push'],
-            task_type='pick_place',
+            task_type='reach',
             obs_type='plain',
             goal_low=(-0.1, 0.8, 0.05),
             goal_high=(0.1, 0.9, 0.3),
