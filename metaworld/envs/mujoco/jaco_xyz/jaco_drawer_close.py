@@ -37,10 +37,10 @@ class JacoDrawerCloseEnv(JacoXYZEnv):
             'obj_init_angle': np.array([
                 0.3,
             ], dtype=np.float32),
-            'obj_init_pos': np.array([0., 0.9, 0.04], dtype=np.float32),
-            'hand_init_pos': np.array([-0.5, 0.4, 0.45], dtype=np.float32),
+            'obj_init_pos': np.array([0, 0.75, -0.05], dtype=np.float32),
+            'hand_init_pos': np.array([-0.07, 0.74, 0.09], dtype=np.float32),
         }
-        self.goal = np.array([0., 0.7, 0.04])
+        self.goal = np.array([0, 0.9, -0.05])
         self.obj_init_pos = self.init_config['obj_init_pos']
         self.obj_init_angle = self.init_config['obj_init_angle']
         self.hand_init_pos = self.init_config['hand_init_pos']
@@ -55,12 +55,12 @@ class JacoDrawerCloseEnv(JacoXYZEnv):
         self.obs_type = obs_type
 
         self.random_init = random_init
-        self.max_path_length = 150
+        self.max_path_length = 400
         self.rotMode = rotMode
         if rotMode == 'fixed':
             self.action_space = Box(
-                np.array([-1, -1, -1, -1]),
-                np.array([1, 1, 1, 1]),
+                np.array([-1, -1, -1, -1, -1, -1]),
+                np.array([1, 1, 1, 1, 1, 1]),
             )
         elif rotMode == 'rotz':
             self.action_rot_scale = 1. / 50
@@ -128,6 +128,11 @@ class JacoDrawerCloseEnv(JacoXYZEnv):
         # Melissa : Do we just simulate raw actions, or rotationally
         # modified?
         self.do_simulation(action)
+
+        # print('Actions ', action)
+        # print('Joint pose :', self.sim.data.qpos)
+        # print('Mocap pose :', self.sim.data.get_mocap_pos('mocap'))
+
         # The marker seems to get reset every time you do a simulation
         self._set_goal_marker(self._state_goal)
         ob = self._get_obs()
@@ -189,7 +194,6 @@ class JacoDrawerCloseEnv(JacoXYZEnv):
         objPos = self.data.get_geom_xpos('handle')
         self.data.site_xpos[self.model.site_name2id('objSite')] = (objPos)
 
-
     def _set_obj_xyz(self, pos):
         qpos = self.data.qpos.flat.copy()
         qvel = self.data.qvel.flat.copy()
@@ -221,7 +225,7 @@ class JacoDrawerCloseEnv(JacoXYZEnv):
         self._set_goal_marker(self._state_goal)
         #self._set_obj_xyz_quat(self.obj_init_pos, self.obj_init_angle)
         drawer_cover_pos = self.obj_init_pos.copy()
-        drawer_cover_pos[2] -= 0.02
+        drawer_cover_pos[1] += 0.15
         self.sim.model.body_pos[self.model.body_name2id(
             'drawer')] = self.obj_init_pos
         self.sim.model.body_pos[self.model.body_name2id(
@@ -240,37 +244,30 @@ class JacoDrawerCloseEnv(JacoXYZEnv):
         # Some initial joint configurations that seem reasonable
         # Since controlling with the position controller is a little
         # finicky
-        self.sim.data.set_joint_qpos('jaco_joint_1', -1.09)
-        self.sim.data.set_joint_qpos('jaco_joint_2', 1.6)
-        self.sim.data.set_joint_qpos('jaco_joint_3', 4.5)
-        self.sim.data.set_joint_qpos('jaco_joint_4', -1.08)
-        self.sim.data.set_joint_qpos('jaco_joint_5', 4.6)
-        self.sim.data.set_joint_qpos('jaco_joint_6', 3.16)
+        self.sim.data.set_joint_qpos('jaco_joint_1', -3.5)
+        self.sim.data.set_joint_qpos('jaco_joint_2', -7.08)
+        self.sim.data.set_joint_qpos('jaco_joint_3', -6.9)
+        self.sim.data.set_joint_qpos('jaco_joint_4', 6.8)
+        self.sim.data.set_joint_qpos('jaco_joint_5', 1.65)
+        self.sim.data.set_joint_qpos('jaco_joint_6', -2.48)
 
         for _ in range(10):
             self.data.set_mocap_pos('mocap', self.hand_init_pos)
             self.data.set_mocap_quat('mocap', np.array([1, 0, 1, 0]))
             self.do_simulation([1, 0, 0, 0, 0, 0], self.frame_skip)
 
-        # rightFinger, leftFinger = self.get_site_pos(
-        #     'rightEndEffector'), self.get_site_pos('leftEndEffector')
-        # TODO Change this
-        wrist = self.get_site_pos('jaco_joint_7')
-        self.init_fingerCOM = wrist
+        finger1, finger2, finger3 = self.get_joint_pos(
+            'jaco_joint_finger_tip_1'), self.get_joint_pos(
+                'jaco_joint_finger_tip_2'), self.get_joint_pos(
+                    'jaco_joint_finger_tip_3')
+        self.init_fingerCOM = (finger1 + finger2 + finger3) / 3
 
     def get_site_pos(self, siteName):
         _id = self.model.site_names.index(siteName)
         return self.data.site_xpos[_id].copy()
 
-    def compute_rewards(self, actions, obsBatch):
-        #Required by HER-TD3
-        assert isinstance(obsBatch, dict) == True
-        obsList = obsBatch['state_observation']
-        rewards = [
-            self.compute_reward(action, obs)[0]
-            for action, obs in zip(actions, obsList)
-        ]
-        return np.array(rewards)
+    def get_joint_pos(self, jointName):
+        return self.data.get_joint_qpos(jointName)
 
     def compute_reward(self, actions, obs):
         if isinstance(obs, dict):
@@ -278,10 +275,11 @@ class JacoDrawerCloseEnv(JacoXYZEnv):
 
         objPos = obs[3:6]
         # TODO : Adopt for three finger grab
-        # rightFinger, leftFinger = self.get_site_pos(
-        #     'rightEndEffector'), self.get_site_pos('leftEndEffector')
-        # fingerCOM = (rightFinger + leftFinger) / 2
-        fingerCOM = self.get_site_pos('jaco_joint_7')
+        finger1, finger2, finger3 = self.get_joint_pos(
+            'jaco_joint_finger_tip_1'), self.get_joint_pos(
+                'jaco_joint_finger_tip_2'), self.get_joint_pos(
+                    'jaco_joint_finger_tip_3')
+        fingerCOM = (finger1 + finger2 + finger3) / 3
 
         pullGoal = self._state_goal[1]
 

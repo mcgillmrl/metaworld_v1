@@ -95,6 +95,7 @@
   <option integrator="RK4" solver="PGS" timestep="0.001" gravity="0 0 -9.8" iterations="50"/>
 
   <default>
+    <joint limited="false" damping="10" armature=".01"/>
     <!-- <joint limited="true" damping="1" stiffness="0" armature=".1" user="0"/> -->
     <geom solref="0.02 1" solimp="1 1 0" />
     <motor ctrllimited="true" ctrlrange="-1 1"/>
