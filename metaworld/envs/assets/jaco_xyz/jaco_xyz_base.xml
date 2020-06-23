@@ -65,7 +65,7 @@ Usage:
 
               <body name="jaco_link_7" pos="0 0.10375 0" quat="0 0 -0.707107 0.707107">
                 <inertial pos="0 0 -0.06" quat="0.5 0.5 -0.5 0.5" mass="0.99" diaginertia="0.0005816 0.000345324 0.000345324" />
-                <site name="jaco_joint_7" pos="0.04 0 0" size="0.01" rgba='1 1 1 0' />
+                <joint name="jaco_joint_7" pos="0 0 0" axis="0 0 1" limited="true" range="-6.28319 6.28319" />
                 <geom name="jaco_link_7" type="mesh" rgba="0.73 0.73 0.73 1" mesh="hand_3finger" />
 
 
@@ -115,8 +115,8 @@ Usage:
   <body mocap="true" name="mocap" pos="0 0.10375 0" quat="0 0 -0.707107 0.707107">
     <!--For debugging, set the alpha to 1-->
     <!--<geom conaffinity="0" contype="0" pos="0 0 0" rgba="0.5 0.5 0.5 1" size="0.1 0.02 0.02" type="box"></geom>-->
-    <geom conaffinity="0" contype="0" pos="0 0.10375 0" rgba="0.0 0.5 0.5 0" size="0.01" type="sphere"></geom>
-    <site name="mocap" pos="0 0.10375 0" rgba="0.0 0.5 0.5 0" size="0.01" type="sphere"></site>
+    <geom conaffinity="0" contype="0" pos="0 0 0" rgba="0.0 0.5 0.5 0" size="0.01" type="sphere"></geom>
+    <site name="mocap" pos="0 0 0" rgba="0.0 0.5 0.5 0" size="0.01" type="sphere"></site>
   </body>
 
 </mujoco>

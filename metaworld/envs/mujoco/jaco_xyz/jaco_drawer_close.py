@@ -37,8 +37,8 @@ class JacoDrawerCloseEnv(JacoXYZEnv):
             'obj_init_angle': np.array([
                 0.3,
             ], dtype=np.float32),
-            'obj_init_pos': np.array([0, 0.75, -0.05], dtype=np.float32),
-            'hand_init_pos': np.array([-0.07, 0.74, 0.09], dtype=np.float32),
+            'obj_init_pos': np.array([-0.07, 0.75, -0.05], dtype=np.float32),
+            'hand_init_pos': np.array([0.108, 0.622, 0.5], dtype=np.float32),
         }
         self.goal = np.array([0, 0.9, -0.05])
         self.obj_init_pos = self.init_config['obj_init_pos']
@@ -55,7 +55,7 @@ class JacoDrawerCloseEnv(JacoXYZEnv):
         self.obs_type = obs_type
 
         self.random_init = random_init
-        self.max_path_length = 400
+        self.max_path_length = 200
         self.rotMode = rotMode
         if rotMode == 'fixed':
             self.action_space = Box(
@@ -244,17 +244,18 @@ class JacoDrawerCloseEnv(JacoXYZEnv):
         # Some initial joint configurations that seem reasonable
         # Since controlling with the position controller is a little
         # finicky
-        self.sim.data.set_joint_qpos('jaco_joint_1', -3.5)
-        self.sim.data.set_joint_qpos('jaco_joint_2', -7.08)
-        self.sim.data.set_joint_qpos('jaco_joint_3', -6.9)
-        self.sim.data.set_joint_qpos('jaco_joint_4', 6.8)
-        self.sim.data.set_joint_qpos('jaco_joint_5', 1.65)
-        self.sim.data.set_joint_qpos('jaco_joint_6', -2.48)
+        self.sim.data.set_joint_qpos('jaco_joint_1', -4.42138)
+        self.sim.data.set_joint_qpos('jaco_joint_2', -7.09531)
+        self.sim.data.set_joint_qpos('jaco_joint_3', -9.5786)
+        self.sim.data.set_joint_qpos('jaco_joint_4', 7.700)
+        self.sim.data.set_joint_qpos('jaco_joint_5', -6.5482)
+        self.sim.data.set_joint_qpos('jaco_joint_6', -3.9436)
+        self.sim.data.set_joint_qpos('jaco_joint_7', -6.2832)
 
         for _ in range(10):
             self.data.set_mocap_pos('mocap', self.hand_init_pos)
             self.data.set_mocap_quat('mocap', np.array([1, 0, 1, 0]))
-            self.do_simulation([1, 0, 0, 0, 0, 0], self.frame_skip)
+            self.do_simulation([0, 0, 0.2, 0, 0, 0], self.frame_skip)
 
         finger1, finger2, finger3 = self.get_joint_pos(
             'jaco_joint_finger_tip_1'), self.get_joint_pos(

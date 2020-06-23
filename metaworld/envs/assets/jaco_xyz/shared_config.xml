@@ -43,10 +43,6 @@
   <default>
     <geom contype='1' conaffinity='1' condim='3' margin="0.001" />
 
-    <!-- damping=10 keeps joints from shaking with position controllers! -->
-
-    <joint limited="false" damping="10" armature=".01"/>
-
     <default class ="vizNcoll">
       <geom material="MatViz" type="mesh" condim="3" contype="1" conaffinity="1" margin="0.001"/>
       <joint pos="0 0 0" type="hinge"/>
@@ -92,11 +88,19 @@
   <!-- <option integrator="RK4" solver="PGS" timestep="0.001" gravity="0 0 -9.8" iterations="50"/> -->
 
   <!-- <optionfor iterations="50" integrator="Euler" timestep="0.002" cone="elliptic" /> -->
-  <option integrator="RK4" solver="PGS" timestep="0.001" gravity="0 0 -9.8" iterations="50"/>
+  <compiler inertiafromgeom="auto" angle="radian" coordinate="local" eulerseq="XYZ" meshdir="../meshes" texturedir="../textures"/>
+  <!-- <option
+          iterations="50"
+          integrator="Euler"
+          timestep="0.002"
+          cone="elliptic"
+  /> -->
+
+  <option timestep='0.0025' iterations="50" tolerance="1e-10" solver="Newton" jacobian="dense" cone="elliptic"/>   
 
   <default>
+    <!-- <joint limited="false" damping="10" armature=".01"/> -->
     <joint limited="false" damping="10" armature=".01"/>
-    <!-- <joint limited="true" damping="1" stiffness="0" armature=".1" user="0"/> -->
     <geom solref="0.02 1" solimp="1 1 0" />
     <motor ctrllimited="true" ctrlrange="-1 1"/>
     <position ctrllimited="true"/>
@@ -104,7 +108,7 @@
   </default>
 
   <equality>
-    <weld body1="mocap" body2="jaco_link_7" solref="0.02 1"></weld>
+    <weld body1="mocap" body2="jaco_link_6" solref="0.02 1"></weld>
   </equality>
 
 </mujoco>
