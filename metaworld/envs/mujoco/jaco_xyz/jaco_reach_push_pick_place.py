@@ -133,7 +133,7 @@ class JacoReachPushPickPlaceEnv(JacoXYZEnv):
     @property
     def model_name(self):
         return get_asset_full_path(
-            'jaco_xyz/jaco_reach_push_pick_and_place.xml')
+            'jaco_xyz/jaco_reach_push_pick_and_place_complete.xml')
 
     def step(self, action):
         if self.rotMode == 'euler':
@@ -235,18 +235,18 @@ class JacoReachPushPickPlaceEnv(JacoXYZEnv):
         qvel[9:15] = 0
         self.set_state(qpos, qvel)
 
-    def sample_goals(self, batch_size):
-        # Required by HER-TD3
-        goals = self.sample_goals_(batch_size)
-        if self.discrete_goal_space is not None:
-            goals = [self.discrete_goals[g].copy() for g in goals]
-        return {
-            'state_desired_goal': goals,
-        }
+    # def sample_goals(self, batch_size):
+    #     # Required by HER-TD3
+    #     goals = self.sample_goals_(batch_size)
+    #     if self.discrete_goal_space is not None:
+    #         goals = [self.discrete_goals[g].copy() for g in goals]
+    #     return {
+    #         'state_desired_goal': goals,
+    #     }
 
-    def sample_task(self):
-        idx = self.sample_goals_(1)
-        return self.discrete_goals[idx]
+    # def sample_task(self):
+    #     idx = self.sample_goals_(1)
+    #     return self.discrete_goals[idx]
 
     def adjust_initObjPos(self, orig_init_pos):
         #This is to account for meshes for the geom and object are not aligned
@@ -340,7 +340,7 @@ class JacoReachPushPickPlaceEnv(JacoXYZEnv):
         # finger1, finger2, finger3 = self.get_site_pos('finger1'), self.get_site_pos('finger2'), \
         #         self.get_site_pos('finger3')
         # This joint was set to site, for now lets keep it as a joint it distablizes things
-        wrist = self.get_site_pos('jaco_joint_7')
+        wrist = self.get_joint_pos('jaco_joint_7')
         # How to set for three-fingered hand?
         self.init_fingerCOM = wrist
         self.pickCompleted = False
@@ -348,6 +348,9 @@ class JacoReachPushPickPlaceEnv(JacoXYZEnv):
     def get_site_pos(self, siteName):
         _id = self.model.site_names.index(siteName)
         return self.data.site_xpos[_id].copy()
+
+    def get_joint_pos(self, jointName):
+        return self.data.get_joint_qpos(jointName)
 
     def compute_rewards(self, actions, obsBatch):
         assert isinstance(obsBatch, dict) == True
@@ -366,7 +369,7 @@ class JacoReachPushPickPlaceEnv(JacoXYZEnv):
 
         # finger1, finger2, finger3 = self.get_site_pos('finger1'), self.get_site_pos('finger2'), \
         #         self.get_site_pos('finger3')
-        fingerCOM = self.get_site_pos('jaco_joint_7')
+        fingerCOM = self.get_joint_pos('jaco_joint_7')
 
         heightTarget = self.heightTarget
         goal = self._state_goal

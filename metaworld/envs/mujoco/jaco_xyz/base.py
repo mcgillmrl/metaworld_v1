@@ -1,16 +1,19 @@
 import abc
 import copy
+import os
 
 from gym.spaces import Discrete
 import mujoco_py
 import numpy as np
-
+from xml.etree import ElementTree as ET
 
 from metaworld.envs.mujoco.mujoco_env import MujocoEnv
 from metaworld.envs.env_util import quat_to_zangle, zangle_to_quat, quat_create, quat_mul
 
-
-OBS_TYPE = ['plain', 'with_goal_id', 'with_goal_and_id', 'with_goal', 'with_goal_init_obs']
+OBS_TYPE = [
+    'plain', 'with_goal_id', 'with_goal_and_id', 'with_goal',
+    'with_goal_init_obs'
+]
 
 
 class JacoMocapBase(MujocoEnv, metaclass=abc.ABCMeta):
@@ -21,9 +24,63 @@ class JacoMocapBase(MujocoEnv, metaclass=abc.ABCMeta):
     mocap_low = np.array([-0.2, 0.5, 0.06])
     mocap_high = np.array([0.2, 0.7, 0.6])
 
-    def __init__(self, model_name, frame_skip=20):
-        MujocoEnv.__init__(self, model_name, frame_skip=frame_skip)
+    def __init__(self,
+                 model_name,
+                 intervention_id,
+                 frame_skip=20,
+                 phase='train'):
+
+        self.apply_env_modifications(model_name, intervention_id,
+                                     phase)
+
+        # MujocoEnv.__init__(self, model_name, frame_skip=frame_skip)
         self.reset_mocap_welds()
+
+    @property
+    def model_name(self):
+        return self.__dict__['x']
+
+    def apply_env_modifications(self, model_name, intervention_id,
+                                phase):
+        xmldoc = ET.parse(model_name)
+        root = xmldoc.getroot()
+        import pdb
+
+        if phase == 'train':
+            # Make sure these match the interventions tags inside `env_dict.py`
+            if intervention_id == 1:
+                for geom in root.iter('geom'):
+                    if geom.get('name') == 'tableTop': 
+                        geom.set('material', 'darkwood')
+
+            elif intervention_id == 2:
+                for geom in root.iter('geom'):
+                    if geom.get('name') == 'tableTop':
+                        geom.set('material', 'light_wood_v3')
+            elif intervention_id == 2:
+                for geom in root.iter('geom'):
+                    if geom.get('name') == 'tableTop':
+                        geom.set('material', 'light_wood_v3')
+            else:
+                raise ValueError('Invalid training intervention id tag.')
+        else:
+            if intervention_id == 1:
+                for geom in root.iter('geom'):
+                    if geom.get('name') == 'tableTop': 
+                        geom.set('material', 'darkwood')
+
+            elif intervention_id == 2:
+                for geom in root.iter('geom'):
+                    if geom.get('name') == 'tableTop':
+                        geom.set('material', 'light_wood_v3')
+            else:
+                raise ValueError('Invalid eval intervention id tag.')
+
+        modxmlpath = model_name.split('jaco_xyz')[0]
+        modxmlpath += 'jaco_xyz_randomized/'
+        tmppath = modxmlpath + 'phase_' + phase + '.xml'
+        xmldoc.write(tmppath)
+        MujocoEnv.__init__(self, tmppath, 4)
 
     def get_endeff_pos(self):
         return self.data.get_body_xpos('jaco_link_7').copy()
@@ -72,17 +129,16 @@ class JacoMocapBase(MujocoEnv, metaclass=abc.ABCMeta):
 
 
 class JacoXYZEnv(JacoMocapBase, metaclass=abc.ABCMeta):
-    def __init__(
-            self,
-            *args,
-            hand_low=(-0.2, 0.55, 0.05),
-            hand_high=(0.2, 0.75, 0.3),
-            mocap_low=None,
-            mocap_high=None,
-            action_scale=2./100,
-            action_rot_scale=1.,
-            **kwargs
-    ):
+    def __init__(self,
+                 *args,
+                 hand_low=(-0.2, 0.55, 0.05),
+                 hand_high=(0.2, 0.75, 0.3),
+                 mocap_low=None,
+                 mocap_high=None,
+                 action_scale=2. / 100,
+                 action_rot_scale=1.,
+                 **kwargs):
+
         super().__init__(*args, **kwargs)
         self.action_scale = action_scale
         self.action_rot_scale = action_rot_scale
@@ -131,8 +187,6 @@ class JacoXYZEnv(JacoMocapBase, metaclass=abc.ABCMeta):
         quat = quat_mul(quat_create(np.array([0, 1., 0]), np.pi),
                         quat_create(np.array(rot_axis), action[3]))
         self.data.set_mocap_quat('mocap', quat)
-        # self.data.set_mocap_quat('mocap', np.array([np.cos(action[3]/2), np.sin(action[3]/2)*rot_axis[0], np.sin(action[3]/2)*rot_axis[1], np.sin(action[3]/2)*rot_axis[2]]))
-        # self.data.set_mocap_quat('mocap', np.array([1, 0, 1, 0]))
 
     def set_xyz_action_rotz(self, action):
         action[:3] = np.clip(action[:3], -1, 1)
@@ -145,7 +199,8 @@ class JacoXYZEnv(JacoMocapBase, metaclass=abc.ABCMeta):
         )
         self.data.set_mocap_pos('mocap', new_mocap_pos)
         zangle_delta = action[3] * self.action_rot_scale
-        new_mocap_zangle = quat_to_zangle(self.data.mocap_quat[0]) + zangle_delta
+        new_mocap_zangle = quat_to_zangle(
+            self.data.mocap_quat[0]) + zangle_delta
 
         # new_mocap_zangle = action[3]
         new_mocap_zangle = np.clip(
@@ -179,7 +234,9 @@ class JacoXYZEnv(JacoMocapBase, metaclass=abc.ABCMeta):
     # just remove the underscore in all method signature.
     def sample_goals_(self, batch_size):
         if self.discrete_goal_space is not None:
-            return [self.discrete_goal_space.sample() for _ in range(batch_size)]
+            return [
+                self.discrete_goal_space.sample() for _ in range(batch_size)
+            ]
         else:
             return [self.goal_space.sample() for _ in range(batch_size)]
 
@@ -191,46 +248,8 @@ class JacoXYZEnv(JacoMocapBase, metaclass=abc.ABCMeta):
             self._state_goal_idx[goal] = 1.
         else:
             self.goal = goal
-    
+
     def set_init_config(self, config):
         assert isinstance(config, dict)
         for key, val in config.items():
             self.init_config[key] = val
-
-    '''
-    Functions that are copied and pasted everywhere and seems
-    to be not used.
-    '''
-    def sample_goals(self, batch_size):
-        '''Note: should be replaced by sample_goals_ if not used''' 
-        # Required by HER-TD3
-        goals = self.sample_goals_(batch_size)
-        if self.discrete_goal_space is not None:
-            goals = [self.discrete_goal_space[g].copy() for g in goals]
-        return {
-            'state_desired_goal': goals,
-        }
-
-    def sample_task(self):
-        '''Note: this can be replaced by sample_goal_(batch_size=1)'''
-        goal = self.sample_goals_(1)
-        if self.discrete_goal_space is not None:
-            return self.discrete_goals[goal]
-        else:
-            return goal
-
-    def _set_obj_xyz_quat(self, pos, angle):
-        quat = quat_create(np.array([0, 0, .1]), angle)
-        qpos = self.data.qpos.flat.copy()
-        qvel = self.data.qvel.flat.copy()
-        qpos[9:12] = pos.copy()
-        qpos[12:16] = quat.copy()
-        qvel[9:15] = 0
-        self.set_state(qpos, qvel)
-
-    def _set_obj_xyz(self, pos):
-        qpos = self.data.qpos.flat.copy()
-        qvel = self.data.qvel.flat.copy()
-        qpos[9:12] = pos.copy()
-        qvel[9:15] = 0
-        self.set_state(qpos, qvel)
