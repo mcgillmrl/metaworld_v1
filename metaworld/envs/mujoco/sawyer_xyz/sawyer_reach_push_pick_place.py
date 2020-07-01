@@ -130,7 +130,7 @@ class SawyerReachPushPickPlaceEnv(SawyerXYZEnv):
 
     @property
     def model_name(self):
-        return get_asset_full_path('sawyer_xyz/sawyer_reach_push_pick_and_place.xml')
+        return get_asset_full_path('sawyer_xyz/sawyer_reach_push_pick_and_place_complete.xml')
 
     def step(self, action):
         if self.rotMode == 'euler':

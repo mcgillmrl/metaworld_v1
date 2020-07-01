@@ -1,16 +1,19 @@
 import abc
 import copy
+import os
 
 from gym.spaces import Discrete
 import mujoco_py
 import numpy as np
 
+from xml.etree import ElementTree as ET
 
 from metaworld.envs.mujoco.mujoco_env import MujocoEnv
 from metaworld.envs.env_util import quat_to_zangle, zangle_to_quat, quat_create, quat_mul
-
-
-OBS_TYPE = ['plain', 'with_goal_id', 'with_goal_and_id', 'with_goal', 'with_goal_init_obs']
+OBS_TYPE = [
+    'plain', 'with_goal_id', 'with_goal_and_id', 'with_goal',
+    'with_goal_init_obs'
+]
 
 
 class SawyerMocapBase(MujocoEnv, metaclass=abc.ABCMeta):
@@ -21,9 +24,60 @@ class SawyerMocapBase(MujocoEnv, metaclass=abc.ABCMeta):
     mocap_low = np.array([-0.2, 0.5, 0.06])
     mocap_high = np.array([0.2, 0.7, 0.6])
 
-    def __init__(self, model_name, frame_skip=20):
-        MujocoEnv.__init__(self, model_name, frame_skip=frame_skip)
+    def __init__(self,
+                 model_name,
+                 intervention_id,
+                 frame_skip=20,
+                 phase='train',
+                 modify_env=True):
+
+        if modify_env:
+            self.apply_env_modifications(model_name, intervention_id, phase)
+        else:
+            MujocoEnv.__init__(self, model_name, frame_skip=frame_skip)
         self.reset_mocap_welds()
+
+    def apply_env_modifications(self, model_name, intervention_id, phase):
+        xmldoc = ET.parse(model_name)
+        root = xmldoc.getroot()
+
+        if phase == 'train':
+            # Make sure these match the interventions tags inside `env_dict.py`
+            if intervention_id == 0:
+                for geom in root.iter('geom'):
+                    if geom.get('name') == 'tableTop':
+                        geom.set('material', 'darkwood')
+
+            elif intervention_id == 1:
+                for geom in root.iter('geom'):
+                    if geom.get('name') == 'tableTop':
+                        geom.set('material', 'marble')
+
+            elif intervention_id == 2:
+                for geom in root.iter('geom'):
+                    if geom.get('name') == 'tableTop':
+                        geom.set('material', 'wood')
+
+            elif intervention_id == 3:
+                for geom in root.iter('geom'):
+                    if geom.get('name') == 'tableTop':
+                        geom.set('material', 'light_wood_v3')
+            else:
+                raise ValueError('Invalid training intervention id tag.')
+        else:
+            # Evaluation phase
+            if intervention_id == 0:
+                for geom in root.iter('geom'):
+                    if geom.get('name') == 'tableTop':
+                        geom.set('material', 'granite')
+            else:
+                raise ValueError('Invalid eval intervention id tag.')
+
+        modxmlpath = model_name.split('sawyer_xyz')[0]
+        modxmlpath += 'sawyer_xyz_randomized/'
+        tmppath = modxmlpath + 'phase_' + phase + '.xml'
+        xmldoc.write(tmppath)
+        MujocoEnv.__init__(self, tmppath, 4)
 
     def get_endeff_pos(self):
         return self.data.get_body_xpos('hand').copy()
@@ -72,17 +126,15 @@ class SawyerMocapBase(MujocoEnv, metaclass=abc.ABCMeta):
 
 
 class SawyerXYZEnv(SawyerMocapBase, metaclass=abc.ABCMeta):
-    def __init__(
-            self,
-            *args,
-            hand_low=(-0.2, 0.55, 0.05),
-            hand_high=(0.2, 0.75, 0.3),
-            mocap_low=None,
-            mocap_high=None,
-            action_scale=2./100,
-            action_rot_scale=1.,
-            **kwargs
-    ):
+    def __init__(self,
+                 *args,
+                 hand_low=(-0.2, 0.55, 0.05),
+                 hand_high=(0.2, 0.75, 0.3),
+                 mocap_low=None,
+                 mocap_high=None,
+                 action_scale=2. / 100,
+                 action_rot_scale=1.,
+                 **kwargs):
         super().__init__(*args, **kwargs)
         self.action_scale = action_scale
         self.action_rot_scale = action_rot_scale
@@ -145,7 +197,8 @@ class SawyerXYZEnv(SawyerMocapBase, metaclass=abc.ABCMeta):
         )
         self.data.set_mocap_pos('mocap', new_mocap_pos)
         zangle_delta = action[3] * self.action_rot_scale
-        new_mocap_zangle = quat_to_zangle(self.data.mocap_quat[0]) + zangle_delta
+        new_mocap_zangle = quat_to_zangle(
+            self.data.mocap_quat[0]) + zangle_delta
 
         # new_mocap_zangle = action[3]
         new_mocap_zangle = np.clip(
@@ -179,7 +232,9 @@ class SawyerXYZEnv(SawyerMocapBase, metaclass=abc.ABCMeta):
     # just remove the underscore in all method signature.
     def sample_goals_(self, batch_size):
         if self.discrete_goal_space is not None:
-            return [self.discrete_goal_space.sample() for _ in range(batch_size)]
+            return [
+                self.discrete_goal_space.sample() for _ in range(batch_size)
+            ]
         else:
             return [self.goal_space.sample() for _ in range(batch_size)]
 
@@ -191,7 +246,7 @@ class SawyerXYZEnv(SawyerMocapBase, metaclass=abc.ABCMeta):
             self._state_goal_idx[goal] = 1.
         else:
             self.goal = goal
-    
+
     def set_init_config(self, config):
         assert isinstance(config, dict)
         for key, val in config.items():
@@ -201,8 +256,9 @@ class SawyerXYZEnv(SawyerMocapBase, metaclass=abc.ABCMeta):
     Functions that are copied and pasted everywhere and seems
     to be not used.
     '''
+
     def sample_goals(self, batch_size):
-        '''Note: should be replaced by sample_goals_ if not used''' 
+        '''Note: should be replaced by sample_goals_ if not used'''
         # Required by HER-TD3
         goals = self.sample_goals_(batch_size)
         if self.discrete_goal_space is not None:
