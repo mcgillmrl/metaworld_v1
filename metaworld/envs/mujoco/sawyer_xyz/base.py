@@ -46,22 +46,42 @@ class SawyerMocapBase(MujocoEnv, metaclass=abc.ABCMeta):
             if intervention_id == 0:
                 for geom in root.iter('geom'):
                     if geom.get('name') == 'tableTop':
+                        # Table: Dark Wood
                         geom.set('material', 'darkwood')
+                for site in root.iter('site'):
+                    if site.get('name') == 'goal_reach':
+                        # Goal Red
+                        site.set('rgba', '0.8 0 0 1')
 
             elif intervention_id == 1:
                 for geom in root.iter('geom'):
                     if geom.get('name') == 'tableTop':
+                        # Table: Marble
                         geom.set('material', 'marble')
+                for site in root.iter('site'):
+                    if site.get('name') == 'goal_reach':
+                        # Goal Red
+                        site.set('rgba', '0.8 0 0 1')
 
             elif intervention_id == 2:
                 for geom in root.iter('geom'):
                     if geom.get('name') == 'tableTop':
-                        geom.set('material', 'wood')
+                        # Table: Blue
+                        geom.set('material', 'navy_blue')
+                for site in root.iter('site'):
+                    if site.get('name') == 'goal_reach':
+                        # Goal Yellow
+                        site.set('rgba', '0.8 1 0.2 1')
 
             elif intervention_id == 3:
                 for geom in root.iter('geom'):
                     if geom.get('name') == 'tableTop':
+                        # Table: Light Wood
                         geom.set('material', 'light_wood_v3')
+                for site in root.iter('site'):
+                    if site.get('name') == 'goal_reach':
+                        # Goal Blue
+                        site.set('rgba', '0.1 0.1 1 1')
             else:
                 raise ValueError('Invalid training intervention id tag.')
         else:
@@ -69,7 +89,12 @@ class SawyerMocapBase(MujocoEnv, metaclass=abc.ABCMeta):
             if intervention_id == 0:
                 for geom in root.iter('geom'):
                     if geom.get('name') == 'tableTop':
+                        # Table: Granite
                         geom.set('material', 'granite')
+                for site in root.iter('site'):
+                    if site.get('name') == 'goal_reach':
+                        # Goal Purple
+                        site.set('rgba', '0.6 0.3 1 1')
             else:
                 raise ValueError('Invalid eval intervention id tag.')
 
