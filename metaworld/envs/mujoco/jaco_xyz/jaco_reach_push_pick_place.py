@@ -235,19 +235,6 @@ class JacoReachPushPickPlaceEnv(JacoXYZEnv):
         qvel[9:15] = 0
         self.set_state(qpos, qvel)
 
-    # def sample_goals(self, batch_size):
-    #     # Required by HER-TD3
-    #     goals = self.sample_goals_(batch_size)
-    #     if self.discrete_goal_space is not None:
-    #         goals = [self.discrete_goals[g].copy() for g in goals]
-    #     return {
-    #         'state_desired_goal': goals,
-    #     }
-
-    # def sample_task(self):
-    #     idx = self.sample_goals_(1)
-    #     return self.discrete_goals[idx]
-
     def adjust_initObjPos(self, orig_init_pos):
         #This is to account for meshes for the geom and object are not aligned
         #If this is not done, the object could be initialized in an extreme position

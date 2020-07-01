@@ -30,8 +30,7 @@ class JacoMocapBase(MujocoEnv, metaclass=abc.ABCMeta):
                  frame_skip=20,
                  phase='train'):
 
-        self.apply_env_modifications(model_name, intervention_id,
-                                     phase)
+        self.apply_env_modifications(model_name, intervention_id, phase)
 
         # MujocoEnv.__init__(self, model_name, frame_skip=frame_skip)
         self.reset_mocap_welds()
@@ -40,39 +39,39 @@ class JacoMocapBase(MujocoEnv, metaclass=abc.ABCMeta):
     def model_name(self):
         return self.__dict__['x']
 
-    def apply_env_modifications(self, model_name, intervention_id,
-                                phase):
+    def apply_env_modifications(self, model_name, intervention_id, phase):
         xmldoc = ET.parse(model_name)
         root = xmldoc.getroot()
-        import pdb
 
         if phase == 'train':
             # Make sure these match the interventions tags inside `env_dict.py`
-            if intervention_id == 1:
+            if intervention_id == 0:
                 for geom in root.iter('geom'):
-                    if geom.get('name') == 'tableTop': 
+                    if geom.get('name') == 'tableTop':
                         geom.set('material', 'darkwood')
+
+            elif intervention_id == 1:
+                for geom in root.iter('geom'):
+                    if geom.get('name') == 'tableTop':
+                        geom.set('material', 'marble')
 
             elif intervention_id == 2:
                 for geom in root.iter('geom'):
                     if geom.get('name') == 'tableTop':
-                        geom.set('material', 'light_wood_v3')
-            elif intervention_id == 2:
+                        geom.set('material', 'wood')
+
+            elif intervention_id == 3:
                 for geom in root.iter('geom'):
                     if geom.get('name') == 'tableTop':
                         geom.set('material', 'light_wood_v3')
             else:
                 raise ValueError('Invalid training intervention id tag.')
         else:
-            if intervention_id == 1:
-                for geom in root.iter('geom'):
-                    if geom.get('name') == 'tableTop': 
-                        geom.set('material', 'darkwood')
-
-            elif intervention_id == 2:
+            # Evaluation phase
+            if intervention_id == 0:
                 for geom in root.iter('geom'):
                     if geom.get('name') == 'tableTop':
-                        geom.set('material', 'light_wood_v3')
+                        geom.set('material', 'granite')
             else:
                 raise ValueError('Invalid eval intervention id tag.')
 

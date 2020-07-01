@@ -334,10 +334,9 @@ RAND_MODE_ARGS_KWARGS = dict(train={}, test={})
 for key, env_cls in RAND_MODE_CLS_DICT['train'].items():
     RAND_MODE_ARGS_KWARGS['train'][key] = _rand_mode_args_kwargs(env_cls, key)
 
-ENV_INTERVENTION_TAG = OrderedDict([('table_wood_goal_red', 1),
-                                    ('table_blue_goal_red', 2),
-                                    ('table_blue_goal_yellow', 3),
-                                    ('table_wood_goal_blue', 4)])
+ENV_INTERVENTION_TAG = OrderedDict([('table_wood_goal_red', 0),
+                                    ('table_blue_goal_red', 1),
+                                    ('table_blue_goal_yellow', 2),
+                                    ('table_wood_goal_blue', 3)])
 
-ENV_INTERVENTION_TAG_TEST = OrderedDict([('arm_white', 1),
-                                         ('arm_red', 2)])
+ENV_INTERVENTION_TAG_TEST = OrderedDict([('table_granite', 0)])
