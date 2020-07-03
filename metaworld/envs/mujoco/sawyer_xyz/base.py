@@ -29,9 +29,10 @@ class SawyerMocapBase(MujocoEnv, metaclass=abc.ABCMeta):
                  intervention_id,
                  frame_skip=20,
                  phase='train',
-                 modify_env=True):
+                 apply_mod=True,
+                 remote_render=False):
 
-        if modify_env:
+        if apply_mod:
             self.apply_env_modifications(model_name, intervention_id, phase)
         else:
             MujocoEnv.__init__(self, model_name, frame_skip=frame_skip)
@@ -106,6 +107,8 @@ class SawyerMocapBase(MujocoEnv, metaclass=abc.ABCMeta):
 
         modxmlpath = model_name.split('sawyer_xyz')[0]
         modxmlpath += 'sawyer_xyz_randomized/'
+        if not os.path.exists(modxmlpath):
+            os.makedirs(modxmlpath)
         tmppath = modxmlpath + 'phase_' + phase + '.xml'
         xmldoc.write(tmppath)
         MujocoEnv.__init__(self, tmppath, 4)
