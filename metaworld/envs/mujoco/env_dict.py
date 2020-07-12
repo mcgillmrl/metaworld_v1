@@ -286,8 +286,7 @@ HARD_MODE_CLS_DICT = OrderedDict(
 
 def _hard_mode_args_kwargs(env_cls, key):
     kwargs = dict(random_init=True,
-                  obs_type='plain',
-                  task_id=list(ALL_ENVIRONMENTS.keys()).index(key))
+                  obs_type='plain')
     if key == 'reach-v1' or key == 'reach-wall-v1':
         kwargs['task_type'] = 'reach'
     elif key == 'push-v1' or key == 'push-wall-v1':
@@ -321,8 +320,7 @@ RAND_MODE_CLS_DICT = OrderedDict(
 
 def _rand_mode_args_kwargs(env_cls, key):
     kwargs = dict(random_init=True,
-                  obs_type='plain',
-                  task_id=list(ALL_ENVIRONMENTS.keys()).index(key))
+                  obs_type='plain')
     if key == 'reach-v1' or key == 'reach-wall-v1':
         kwargs['task_type'] = 'reach'
     elif key == 'push-v1' or key == 'push-wall-v1':
