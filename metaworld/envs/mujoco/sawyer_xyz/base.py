@@ -67,8 +67,14 @@ class SawyerMocapBase(MujocoEnv, metaclass=abc.ABCMeta):
             if table_col_tag == 3:
                 for geom in root.iter('geom'):
                     if geom.get('name') == 'tableTop':
-                        # Table: Light Wood
-                        geom.set('material', 'light_wood_v3')
+                        # Table: Tennis
+                        geom.set('material', 'tennis')
+
+            if table_col_tag == 4:
+                for geom in root.iter('geom'):
+                    if geom.get('name') == 'tableTop':
+                        # Table: Wood
+                        geom.set('material', 'wood')
 
             if goal_col_tag == 0:
                 for site in root.iter('site'):
@@ -91,8 +97,8 @@ class SawyerMocapBase(MujocoEnv, metaclass=abc.ABCMeta):
             if goal_col_tag == 3:
                 for site in root.iter('site'):
                     if site.get('name') == 'goal_reach':
-                        # Goal Red
-                        site.set('rgba', '0.8 0 0 1')
+                        # Goal Pink
+                        site.set('rgba', '1 0.1 0.9 1')
         else:
             # Evaluation phase
             if intervention_id == 0:
