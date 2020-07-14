@@ -26,12 +26,11 @@ class SawyerMocapBase(MujocoEnv, metaclass=abc.ABCMeta):
 
     def __init__(self,
                  model_name,
-                 intervention_id,
+                 intervention_id=None,
                  frame_skip=20,
                  phase='train',
                  apply_mod=True,
                  remote_render=False):
-
         if apply_mod:
             self.apply_env_modifications(model_name, intervention_id, phase)
         else:
@@ -52,11 +51,6 @@ class SawyerMocapBase(MujocoEnv, metaclass=abc.ABCMeta):
                     if geom.get('name') == 'tableTop':
                         # Table: Dark Wood
                         geom.set('material', 'darkwood')
-            if goal_col_tag == 0:
-                for site in root.iter('site'):
-                    if site.get('name') == 'goal_reach':
-                        # Goal Red
-                        site.set('rgba', '0.8 0 0 1')
 
             if table_col_tag == 1:
                 for geom in root.iter('geom'):
@@ -64,33 +58,41 @@ class SawyerMocapBase(MujocoEnv, metaclass=abc.ABCMeta):
                         # Table: Marble
                         geom.set('material', 'marble')
 
-            # if goal_col_tag == 1:
-            #     for site in root.iter('site'):
-            #         if site.get('name') == 'goal_reach':
-            #             # Goal Red
-            #             site.set('rgba', '0.8 0 0 1')
-
             if table_col_tag == 2:
                 for geom in root.iter('geom'):
                     if geom.get('name') == 'tableTop':
                         # Table: Blue
                         geom.set('material', 'navy_blue')
-            if goal_col_tag == 1:
-                for site in root.iter('site'):
-                    if site.get('name') == 'goal_reach':
-                        # Goal Yellow
-                        site.set('rgba', '0.8 1 0.2 1')
 
             if table_col_tag == 3:
                 for geom in root.iter('geom'):
                     if geom.get('name') == 'tableTop':
                         # Table: Light Wood
                         geom.set('material', 'light_wood_v3')
+
+            if goal_col_tag == 0:
+                for site in root.iter('site'):
+                    if site.get('name') == 'goal_reach':
+                        # Goal Red
+                        site.set('rgba', '0.8 0 0 1')
+
+            if goal_col_tag == 1:
+                for site in root.iter('site'):
+                    if site.get('name') == 'goal_reach':
+                        # Goal Yellow
+                        site.set('rgba', '0.8 1 0.2 1')
+
             if goal_col_tag == 2:
                 for site in root.iter('site'):
                     if site.get('name') == 'goal_reach':
                         # Goal Blue
                         site.set('rgba', '0.1 0.1 1 1')
+
+            if goal_col_tag == 3:
+                for site in root.iter('site'):
+                    if site.get('name') == 'goal_reach':
+                        # Goal Red
+                        site.set('rgba', '0.8 0 0 1')
         else:
             # Evaluation phase
             if intervention_id == 0:
@@ -102,6 +104,16 @@ class SawyerMocapBase(MujocoEnv, metaclass=abc.ABCMeta):
                     if site.get('name') == 'goal_reach':
                         # Goal Purple
                         site.set('rgba', '0.6 0.3 1 1')
+
+            # if intervention_id == 0:
+            #     for geom in root.iter('geom'):
+            #         if geom.get('name') == 'tableTop':
+            #             # Table: Granite
+            #             geom.set('material', 'navy_blue')
+            #     for site in root.iter('site'):
+            #         if site.get('name') == 'goal_reach':
+            #             # Goal Red
+            #             site.set('rgba', '0.8 0 0 1')
             else:
                 raise ValueError('Invalid eval intervention id tag.')
 
