@@ -55,6 +55,15 @@
         <texture name="light_wood_v3" file="../textures/light_wood_v3.png" type="2d"/>
         <material shininess=".1" name="light_wood_v3" texture="light_wood_v3" specular="0.4"/>
 
+        <texture name="metal" file="../textures/metal.png" type="2d"/>
+        <material shininess=".1" name="metal" texture="metal" specular="0.4"/>
+
+        <texture name="tennis" file="../textures/tennis.png" type="2d"/>
+        <material shininess=".1" name="tennis" texture="tennis" specular="0.4"/>
+
+        <texture name="robot" file="../textures/robot.png" type="2d"/>
+        <material shininess=".1" name="robot" texture="robot" specular="0.4"/>
+
         <texture builtin="gradient" height="256" rgb1=".9 .9 1." rgb2=".2 .3 .4" type="skybox" width="256"/>
     </asset>
 

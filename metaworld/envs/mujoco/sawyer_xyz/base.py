@@ -97,7 +97,7 @@ class SawyerMocapBase(MujocoEnv, metaclass=abc.ABCMeta):
                 for geom in root.iter('geom'):
                     if geom.get('name') == 'tableTop':
                         # Table: Granite
-                        geom.set('material', 'granite')
+                        geom.set('material', 'robot')
                 for site in root.iter('site'):
                     if site.get('name') == 'goal_reach':
                         # Goal Purple
