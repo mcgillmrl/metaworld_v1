@@ -128,8 +128,8 @@ class SawyerMocapBase(MujocoEnv, metaclass=abc.ABCMeta):
             #         if site.get('name') == 'goal_reach':
             #             # Goal Red
             #             site.set('rgba', '0.8 0 0 1')
-            else:
-                raise ValueError('Invalid eval intervention id tag.')
+            # else:
+            #     raise ValueError('Invalid eval intervention id tag.')
 
         modxmlpath = model_name.split('sawyer_xyz')[0]
         modxmlpath += 'sawyer_xyz_randomized/'
