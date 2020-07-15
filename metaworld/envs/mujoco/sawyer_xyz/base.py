@@ -44,6 +44,7 @@ class SawyerMocapBase(MujocoEnv, metaclass=abc.ABCMeta):
         if phase == 'train':
             table_col_tag = int(intervention_id[0])
             goal_col_tag = int(intervention_id[1])
+            sky_col_tag = int(intervention_id[2])
             # Make sure these match the interventions tags inside `env_dict.py`
             if table_col_tag == 0:
                 for geom in root.iter('geom'):
@@ -98,11 +99,62 @@ class SawyerMocapBase(MujocoEnv, metaclass=abc.ABCMeta):
                     if site.get('name') == 'goal_reach':
                         # Goal Pink
                         site.set('rgba', '1 0.1 0.9 1')
+
+            # Change the background
+            for asset in root.iter('asset'):
+                for texture in asset.iter('texture'):
+                    if texture.get('name') == 'sky':
+                        if sky_col_tag == 1:
+                            # Red stary sky
+                            texture.set('rgb1', '.8 .1 .4')
+                            texture.set('rgb2', '0 0 0')
+                            texture.set('width', '800')
+                            texture.set('height', '800')
+                            texture.set('mark', 'random')
+                            texture.set('markrgb', '1 1 1')
+
+                        elif sky_col_tag == 2:
+                            # Orange stary sky
+                            texture.set('rgb1', '.8 .5 .1')
+                            texture.set('rgb2', '0 0 0')
+                            texture.set('width', '800')
+                            texture.set('height', '800')
+                            texture.set('mark', 'random')
+                            texture.set('markrgb', '1 1 1')
+
+                        elif sky_col_tag == 3:
+                            # Yellow stary sky
+                            texture.set('rgb1', '1 1 .4')
+                            texture.set('rgb2', '0 0 0')
+                            texture.set('width', '800')
+                            texture.set('height', '800')
+                            texture.set('mark', 'random')
+                            texture.set('markrgb', '1 1 1')
+
+                        elif sky_col_tag == 4:
+                            # Pink stary sky
+                            texture.set('rgb1', '1 .5 1')
+                            texture.set('rgb2', '0 0 0')
+                            texture.set('width', '800')
+                            texture.set('height', '800')
+                            texture.set('mark', 'random')
+                            texture.set('markrgb', '1 1 1')
+
+                        elif sky_col_tag == 5:
+                            # Amber stary sky
+                            texture.set('rgb1', '1 .6 .4')
+                            texture.set('rgb2', '0 0 0')
+                            texture.set('width', '800')
+                            texture.set('height', '800')
+                            texture.set('mark', 'random')
+                            texture.set('markrgb', '1 1 1')
+
         else:
             # Evaluation phase
             # Change the background
             for asset in root.iter('asset'):
                 for texture in asset.iter('texture'):
+                    # DMSuite(blue) stary sky
                     if texture.get('name') == 'sky':
                         texture.set('rgb1', '.4 .6 .8')
                         texture.set('rgb2', '0 0 0')
@@ -110,6 +162,7 @@ class SawyerMocapBase(MujocoEnv, metaclass=abc.ABCMeta):
                         texture.set('height', '800')
                         texture.set('mark', 'random')
                         texture.set('markrgb', '1 1 1')
+
             for geom in root.iter('geom'):
                 if geom.get('name') == 'tableTop':
                     # Table: Robot
