@@ -309,11 +309,13 @@ RAND_MODE_CLS_DICT = OrderedDict(
       OrderedDict((
           ('reach-v1', SawyerReachPushPickPlaceEnv),
           ('jaco-reach-v1', JacoReachPushPickPlaceEnv),
+          ('push-v1', SawyerReachPushPickPlaceEnv),
           ('pick-place-v1', SawyerReachPushPickPlaceEnv),
       ))), ('test',
             OrderedDict((
                 ('reach-v1', SawyerReachPushPickPlaceEnv),
                 ('jaco-reach-v1', JacoReachPushPickPlaceEnv),
+                ('push-v1', SawyerReachPushPickPlaceEnv),
                 ('pick-place-v1', SawyerReachPushPickPlaceEnv),
             )))))
 

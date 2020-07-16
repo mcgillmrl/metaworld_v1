@@ -46,59 +46,51 @@ class SawyerMocapBase(MujocoEnv, metaclass=abc.ABCMeta):
             goal_col_tag = int(intervention_id[1])
             sky_col_tag = int(intervention_id[2])
             # Make sure these match the interventions tags inside `env_dict.py`
-            if table_col_tag == 0:
-                for geom in root.iter('geom'):
-                    if geom.get('name') == 'tableTop':
+            for geom in root.iter('geom'):
+                if geom.get('name') == 'tableTop':
+                    if table_col_tag == 0:
                         # Table: Dark Wood
                         geom.set('material', 'darkwood')
 
-            if table_col_tag == 1:
-                for geom in root.iter('geom'):
-                    if geom.get('name') == 'tableTop':
+                    elif table_col_tag == 1:
                         # Table: Marble
                         geom.set('material', 'marble')
 
-            if table_col_tag == 2:
-                for geom in root.iter('geom'):
-                    if geom.get('name') == 'tableTop':
+                    elif table_col_tag == 2:
                         # Table: Blue
                         geom.set('material', 'navy_blue')
 
-            if table_col_tag == 3:
-                for geom in root.iter('geom'):
-                    if geom.get('name') == 'tableTop':
+                    elif table_col_tag == 3:
                         # Table: Tennis
                         geom.set('material', 'tennis')
 
-            if table_col_tag == 4:
-                for geom in root.iter('geom'):
-                    if geom.get('name') == 'tableTop':
+                    elif table_col_tag == 4:
                         # Table: Wood
                         geom.set('material', 'wood')
+                    else:
+                        raise ValueError('Invalid Table Colour!')
 
-            if goal_col_tag == 0:
-                for site in root.iter('site'):
-                    if site.get('name') == 'goal_reach':
+            for site in root.iter('site'):
+                if site.get('name') == 'goal_reach' or site.get(
+                        'name') == 'goal_push' or site.get(
+                            'name') == 'goal_pick_place':
+                    if goal_col_tag == 0:
                         # Goal Red
                         site.set('rgba', '0.8 0 0 1')
 
-            if goal_col_tag == 1:
-                for site in root.iter('site'):
-                    if site.get('name') == 'goal_reach':
+                    elif goal_col_tag == 1:
                         # Goal Yellow
                         site.set('rgba', '0.8 1 0.2 1')
 
-            if goal_col_tag == 2:
-                for site in root.iter('site'):
-                    if site.get('name') == 'goal_reach':
+                    elif goal_col_tag == 2:
                         # Goal Blue
                         site.set('rgba', '0.1 0.1 1 1')
 
-            if goal_col_tag == 3:
-                for site in root.iter('site'):
-                    if site.get('name') == 'goal_reach':
+                    elif goal_col_tag == 3:
                         # Goal Pink
                         site.set('rgba', '1 0.1 0.9 1')
+                    else:
+                        raise ValueError('Invalid Goal Colour!')
 
             # Change the background
             for asset in root.iter('asset'):
