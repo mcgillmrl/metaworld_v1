@@ -67,6 +67,14 @@ class SawyerMocapBase(MujocoEnv, metaclass=abc.ABCMeta):
                     elif table_col_tag == 4:
                         # Table: Wood
                         geom.set('material', 'wood')
+
+                    elif table_col_tag == 5:
+                        # Table: LightWood
+                        geom.set('material', 'light_wood_v3')
+
+                    elif table_col_tag == 6:
+                        # Table: LightWoodV2
+                        geom.set('material', 'light_wood_v2')
                     else:
                         raise ValueError('Invalid Table Colour!')
 
@@ -135,6 +143,15 @@ class SawyerMocapBase(MujocoEnv, metaclass=abc.ABCMeta):
                         elif sky_col_tag == 5:
                             # Amber stary sky
                             texture.set('rgb1', '1 .6 .4')
+                            texture.set('rgb2', '0 0 0')
+                            texture.set('width', '800')
+                            texture.set('height', '800')
+                            texture.set('mark', 'random')
+                            texture.set('markrgb', '1 1 1')
+
+                        elif sky_col_tag == 6:
+                            # Black stary sky
+                            texture.set('rgb1', '0 0 0')
                             texture.set('rgb2', '0 0 0')
                             texture.set('width', '800')
                             texture.set('height', '800')
