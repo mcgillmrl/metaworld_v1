@@ -27,17 +27,20 @@ class SawyerMocapBase(MujocoEnv, metaclass=abc.ABCMeta):
     def __init__(self,
                  model_name,
                  intervention_id=None,
+                 experiment_id=None,
                  frame_skip=20,
                  phase='train',
                  apply_mod=True,
                  remote_render=False):
         if apply_mod:
-            self.apply_env_modifications(model_name, intervention_id, phase)
+            self.apply_env_modifications(model_name, intervention_id,
+                                         experiment_id, phase)
         else:
             MujocoEnv.__init__(self, model_name, frame_skip=frame_skip)
         self.reset_mocap_welds()
 
-    def apply_env_modifications(self, model_name, intervention_id, phase):
+    def apply_env_modifications(self, model_name, intervention_id,
+                                experiment_id, phase):
         xmldoc = ET.parse(model_name)
         root = xmldoc.getroot()
 
@@ -194,7 +197,8 @@ class SawyerMocapBase(MujocoEnv, metaclass=abc.ABCMeta):
             #     raise ValueError('Invalid eval intervention id tag.')
 
         modxmlpath = model_name.split('sawyer_xyz')[0]
-        modxmlpath += 'sawyer_xyz_randomized/'
+        modxmlpath += 'sawyer_xyz_randomized' + experiment_id + "/"
+
         if not os.path.exists(modxmlpath):
             os.makedirs(modxmlpath)
         tmppath = modxmlpath + 'phase_' + phase + '.xml'
