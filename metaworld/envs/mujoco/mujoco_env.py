@@ -106,7 +106,7 @@ class MujocoEnv(gym.Env):
         # For Sawyer reach/push
         self.viewer.cam.azimuth = -70
         self.viewer.cam.elevation = -10
-        self.viewer.cam.distance = 1.5
+        self.viewer.cam.distance = 1.66
 
         # For Jaco reach/push
         # Bring the camera closer
