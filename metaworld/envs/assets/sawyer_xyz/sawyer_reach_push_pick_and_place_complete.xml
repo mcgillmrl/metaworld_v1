@@ -72,7 +72,7 @@
     </visual>
 
     <!-- <compiler angle="radian" meshdir="../meshes/sawyer"/> -->
-    <compiler inertiafromgeom="auto" angle="radian" coordinate="local" eulerseq="XYZ" meshdir="../../../meshes" texturedir="../../../textures"/>
+    <compiler inertiafromgeom="auto" angle="radian" coordinate="local" eulerseq="XYZ" meshdir="../meshes" texturedir="../textures"/>
     <!-- <option iterations="50" integrator="Euler" timestep="0.002" cone="elliptic" /> -->
 
     <option timestep='0.0025' iterations="50" tolerance="1e-10" solver="Newton" jacobian="dense" cone="elliptic"/>

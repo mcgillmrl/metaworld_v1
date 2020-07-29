@@ -44,6 +44,11 @@ class SawyerMocapBase(MujocoEnv, metaclass=abc.ABCMeta):
         xmldoc = ET.parse(model_name)
         root = xmldoc.getroot()
 
+        for comp in root.iter('compiler'):
+            # Directory hierarchy is different for randomized xmls
+            comp.set('meshdir', '../../../meshes')
+            comp.set('texturedir', '../../../textures')
+
         if phase == 'train':
             table_col_tag = int(intervention_id[0])
             goal_col_tag = int(intervention_id[1])
