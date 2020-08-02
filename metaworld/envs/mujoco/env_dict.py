@@ -311,12 +311,19 @@ RAND_MODE_CLS_DICT = OrderedDict(
           ('jaco-reach-v1', JacoReachPushPickPlaceEnv),
           ('push-v1', SawyerReachPushPickPlaceEnv),
           ('pick-place-v1', SawyerReachPushPickPlaceEnv),
+          ('button-press-v1', SawyerButtonPressEnv),
+          ('drawer-open-v1', SawyerDrawerOpenEnv),
+          ('drawer-close-v1', SawyerDrawerCloseEnv)
+
       ))), ('test',
             OrderedDict((
                 ('reach-v1', SawyerReachPushPickPlaceEnv),
                 ('jaco-reach-v1', JacoReachPushPickPlaceEnv),
                 ('push-v1', SawyerReachPushPickPlaceEnv),
                 ('pick-place-v1', SawyerReachPushPickPlaceEnv),
+                ('button-press-v1', SawyerButtonPressEnv),
+                ('drawer-open-v1', SawyerDrawerOpenEnv),
+                ('drawer-close-v1', SawyerDrawerCloseEnv)
             )))))
 
 
