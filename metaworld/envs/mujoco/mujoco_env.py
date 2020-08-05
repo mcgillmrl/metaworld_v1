@@ -35,9 +35,10 @@ class MujocoEnv(gym.Env):
                  frame_skip,
                  device_id=-1,
                  automatically_set_spaces=False,
-                 remote_render=False):
+                 remote_render=False,
+                 view_setting=[-70, -10, 1.66]):
         self.remote_render = remote_render
-
+        self.view_setting = view_setting
         # This would get triggered multiple times per env instant
         # if not self.remote_render:
         #     GlfwContext(offscreen=True)
@@ -104,9 +105,9 @@ class MujocoEnv(gym.Env):
 		"""
 
         # For Sawyer reach/push
-        self.viewer.cam.azimuth = -70
-        self.viewer.cam.elevation = -10
-        self.viewer.cam.distance = 1.66
+        self.viewer.cam.azimuth = self.view_setting[0]
+        self.viewer.cam.elevation = self.view_setting[1]
+        self.viewer.cam.distance = self.view_setting[2]
 
         # For Jaco reach/push
         # Bring the camera closer
@@ -117,6 +118,7 @@ class MujocoEnv(gym.Env):
         # self.viewer.cam.elevation = -20
         # self.viewer.cam.distance = 1.66
 
+        # Q:What are these settings for?
         # self.viewer.cam.lookat[0] = 1.1
         # self.viewer.cam.lookat[1] = 1.1
         # self.viewer.cam.lookat[2] = -0.1

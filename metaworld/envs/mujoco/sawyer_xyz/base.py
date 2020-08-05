@@ -31,12 +31,16 @@ class SawyerMocapBase(MujocoEnv, metaclass=abc.ABCMeta):
                  frame_skip=20,
                  phase='train',
                  apply_mod=True,
-                 remote_render=False):
+                 remote_render=False,
+                 view_setting=[-70, -10, 1.66]):
         if apply_mod:
             self.apply_env_modifications(model_name, intervention_id,
                                          experiment_id, phase)
         else:
-            MujocoEnv.__init__(self, model_name, frame_skip=frame_skip)
+            MujocoEnv.__init__(self,
+                               model_name,
+                               frame_skip=frame_skip,
+                               view_setting=view_setting)
         self.reset_mocap_welds()
 
     def apply_env_modifications(self, model_name, intervention_id,
