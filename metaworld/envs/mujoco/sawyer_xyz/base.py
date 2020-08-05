@@ -184,14 +184,14 @@ class SawyerMocapBase(MujocoEnv, metaclass=abc.ABCMeta):
                         texture.set('mark', 'random')
                         texture.set('markrgb', '1 1 1')
 
-            for geom in root.iter('geom'):
-                if geom.get('name') == 'tableTop':
-                    # Table: Robot
-                    geom.set('material', 'robot')
-            for site in root.iter('site'):
-                if site.get('name') == 'goal_reach':
-                    # Goal Purple
-                    site.set('rgba', '0.6 0.3 1 1')
+            # for geom in root.iter('geom'):
+            #     if geom.get('name') == 'tableTop':
+            #         # Table: Robot
+            #         geom.set('material', 'robot')
+            # for site in root.iter('site'):
+            #     if site.get('name') == 'goal_reach':
+            #         # Goal Purple
+            #         site.set('rgba', '0.6 0.3 1 1')
 
             # if intervention_id == 0:
             #     for geom in root.iter('geom'):
