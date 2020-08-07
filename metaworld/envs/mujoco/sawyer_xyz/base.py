@@ -87,8 +87,6 @@ class SawyerMocapBase(MujocoEnv, metaclass=abc.ABCMeta):
                     elif table_col_tag == 6:
                         # Table: LightWoodV2
                         geom.set('material', 'light_wood_v2')
-                    else:
-                        raise ValueError('Invalid Table Colour!')
 
             for site in root.iter('site'):
                 if site.get('name') == 'goal_reach' or site.get(
@@ -109,8 +107,6 @@ class SawyerMocapBase(MujocoEnv, metaclass=abc.ABCMeta):
                     elif goal_col_tag == 3:
                         # Goal Pink
                         site.set('rgba', '1 0.1 0.9 1')
-                    else:
-                        raise ValueError('Invalid Goal Colour!')
 
             # Change the background
             for asset in root.iter('asset'):
