@@ -107,7 +107,7 @@ class SawyerDrawerCloseEnv(SawyerXYZEnv):
 
     @property
     def model_name(self):
-        return get_asset_full_path('sawyer_xyz/sawyer_drawer.xml')
+        return get_asset_full_path('sawyer_xyz/sawyer_drawer_complete.xml')
 
     def step(self, action):
         if self.rotMode == 'euler':

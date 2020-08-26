@@ -106,7 +106,7 @@ class SawyerButtonPressEnv(SawyerXYZEnv):
 
     @property
     def model_name(self):
-        return get_asset_full_path('sawyer_xyz/sawyer_button_press.xml')
+        return get_asset_full_path('sawyer_xyz/sawyer_button_press_complete.xml')
 
     def step(self, action):
         if self.rotMode == 'euler':

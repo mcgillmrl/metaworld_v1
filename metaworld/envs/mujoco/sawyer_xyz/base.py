@@ -28,19 +28,21 @@ class SawyerMocapBase(MujocoEnv, metaclass=abc.ABCMeta):
                  model_name,
                  intervention_id=None,
                  experiment_id=None,
-                 frame_skip=20,
+                 frame_skip=5,
                  phase='train',
                  apply_mod=True,
                  remote_render=False,
                  view_setting=[-70, -10, 1.66]):
+        self.frame_skip = frame_skip
+        self.view_setting = view_setting
         if apply_mod:
             self.apply_env_modifications(model_name, intervention_id,
                                          experiment_id, phase)
         else:
             MujocoEnv.__init__(self,
                                model_name,
-                               frame_skip=frame_skip,
-                               view_setting=view_setting)
+                               frame_skip=self.frame_skip,
+                               view_setting=self.view_setting)
         self.reset_mocap_welds()
 
     def apply_env_modifications(self, model_name, intervention_id,
@@ -208,7 +210,10 @@ class SawyerMocapBase(MujocoEnv, metaclass=abc.ABCMeta):
             os.makedirs(modxmlpath)
         tmppath = modxmlpath + 'phase_' + phase + '.xml'
         xmldoc.write(tmppath)
-        MujocoEnv.__init__(self, tmppath, 4)
+        MujocoEnv.__init__(self,
+                           tmppath,
+                           frame_skip=self.frame_skip,
+                           view_setting=self.view_setting)
 
     def get_endeff_pos(self):
         return self.data.get_body_xpos('hand').copy()
