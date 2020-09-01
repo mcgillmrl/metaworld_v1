@@ -12,7 +12,7 @@ from metaworld.envs.mujoco.mujoco_env import MujocoEnv
 from metaworld.envs.env_util import quat_to_zangle, zangle_to_quat, quat_create, quat_mul
 OBS_TYPE = [
     'plain', 'with_goal_id', 'with_goal_and_id', 'with_goal',
-    'with_goal_init_obs'
+    'with_goal_init_obs', 'just_goal'
 ]
 
 
