@@ -57,7 +57,7 @@ class SawyerMocapBase(MujocoEnv, metaclass=abc.ABCMeta):
 
         if phase == 'train':
             table_col_tag = int(intervention_id[0])
-            goal_col_tag = int(intervention_id[1])
+            # goal_col_tag = int(intervention_id[1])
             sky_col_tag = int(intervention_id[2])
             # Make sure these match the interventions tags inside `env_dict.py`
             for geom in root.iter('geom'):
@@ -94,21 +94,24 @@ class SawyerMocapBase(MujocoEnv, metaclass=abc.ABCMeta):
                 if site.get('name') == 'goal_reach' or site.get(
                         'name') == 'goal_push' or site.get(
                             'name') == 'goal_pick_place':
-                    if goal_col_tag == 0:
-                        # Goal Red
-                        site.set('rgba', '0.8 0 0 1')
+                    # Keep the goal colour consistent across train and test
+                    # Goal Purple
+                    site.set('rgba', '0.6 0.3 1 1')
+                    # if goal_col_tag == 0:
+                    #     # Goal Red
+                    #     site.set('rgba', '0.8 0 0 1')
 
-                    elif goal_col_tag == 1:
-                        # Goal Yellow
-                        site.set('rgba', '0.8 1 0.2 1')
+                    # elif goal_col_tag == 1:
+                    #     # Goal Yellow
+                    #     site.set('rgba', '0.8 1 0.2 1')
 
-                    elif goal_col_tag == 2:
-                        # Goal Blue
-                        site.set('rgba', '0.1 0.1 1 1')
+                    # elif goal_col_tag == 2:
+                    #     # Goal Blue
+                    #     site.set('rgba', '0.1 0.1 1 1')
 
-                    elif goal_col_tag == 3:
-                        # Goal Pink
-                        site.set('rgba', '1 0.1 0.9 1')
+                    # elif goal_col_tag == 3:
+                    #     # Goal Pink
+                    #     site.set('rgba', '1 0.1 0.9 1')
 
             # Change the background
             for asset in root.iter('asset'):
@@ -182,14 +185,14 @@ class SawyerMocapBase(MujocoEnv, metaclass=abc.ABCMeta):
                         texture.set('mark', 'random')
                         texture.set('markrgb', '1 1 1')
 
-            # for geom in root.iter('geom'):
-            #     if geom.get('name') == 'tableTop':
-            #         # Table: Robot
-            #         geom.set('material', 'robot')
-            # for site in root.iter('site'):
-            #     if site.get('name') == 'goal_reach':
-            #         # Goal Purple
-            #         site.set('rgba', '0.6 0.3 1 1')
+            for geom in root.iter('geom'):
+                if geom.get('name') == 'tableTop':
+                    # Table: Robot
+                    geom.set('material', 'robot')
+            for site in root.iter('site'):
+                if site.get('name') == 'goal_reach':
+                    # Goal Purple
+                    site.set('rgba', '0.6 0.3 1 1')
 
             # if intervention_id == 0:
             #     for geom in root.iter('geom'):
