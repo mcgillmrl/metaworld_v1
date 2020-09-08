@@ -64,6 +64,9 @@
         <texture name="robot" file="../textures/robot.png" type="2d"/>
         <material shininess=".1" name="robot" texture="robot" specular="0.4"/>
 
+        <texture name="robot_bw" file="../textures/robot_bw.png" type="2d"/>
+        <material shininess=".1" name="robot_bw" texture="robot_bw" specular="0.4"/>
+
         <texture builtin="gradient" height="256" rgb1=".9 .9 1." rgb2=".2 .3 .4" type="skybox" width="256"/>
     </asset>
 
