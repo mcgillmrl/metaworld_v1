@@ -174,37 +174,68 @@ class SawyerMocapBase(MujocoEnv, metaclass=abc.ABCMeta):
         else:
             # Evaluation phase
             # Change the background
-            for asset in root.iter('asset'):
-                for texture in asset.iter('texture'):
-                    # DMSuite(blue) stary sky
-                    if texture.get('name') == 'sky':
-                        texture.set('rgb1', '.4 .6 .8')
-                        texture.set('rgb2', '0 0 0')
-                        texture.set('width', '800')
-                        texture.set('height', '800')
-                        texture.set('mark', 'random')
-                        texture.set('markrgb', '1 1 1')
+            env_tag = int(intervention_id[0])
+            if env_tag == 0:
+                # Robot Face table with blue background
+                for asset in root.iter('asset'):
+                    for texture in asset.iter('texture'):
+                        # DMSuite(blue) stary sky
+                        if texture.get('name') == 'sky':
+                            texture.set('rgb1', '.4 .6 .8')
+                            texture.set('rgb2', '0 0 0')
+                            texture.set('width', '800')
+                            texture.set('height', '800')
+                            texture.set('mark', 'random')
+                            texture.set('markrgb', '1 1 1')
 
-            for geom in root.iter('geom'):
-                if geom.get('name') == 'tableTop':
-                    # Table: Robot
-                    geom.set('material', 'robot')
-            for site in root.iter('site'):
-                if site.get('name') == 'goal_reach':
-                    # Goal Purple
-                    site.set('rgba', '0.6 0.3 1 1')
+                for geom in root.iter('geom'):
+                    if geom.get('name') == 'tableTop':
+                        # Table: Robot
+                        geom.set('material', 'robot')
+                for site in root.iter('site'):
+                    if site.get('name') == 'goal_reach':
+                        # Goal Purple
+                        site.set('rgba', '0.6 0.3 1 1')
+            elif env_tag == 1:
+                # Robot Face table black and white with blue background
+                for asset in root.iter('asset'):
+                    for texture in asset.iter('texture'):
+                        # DMSuite(blue) stary sky
+                        if texture.get('name') == 'sky':
+                            texture.set('rgb1', '.4 .6 .8')
+                            texture.set('rgb2', '0 0 0')
+                            texture.set('width', '800')
+                            texture.set('height', '800')
+                            texture.set('mark', 'random')
+                            texture.set('markrgb', '1 1 1')
 
-            # if intervention_id == 0:
-            #     for geom in root.iter('geom'):
-            #         if geom.get('name') == 'tableTop':
-            #             # Table: Granite
-            #             geom.set('material', 'navy_blue')
-            #     for site in root.iter('site'):
-            #         if site.get('name') == 'goal_reach':
-            #             # Goal Red
-            #             site.set('rgba', '0.8 0 0 1')
-            # else:
-            #     raise ValueError('Invalid eval intervention id tag.')
+                for geom in root.iter('geom'):
+                    if geom.get('name') == 'tableTop':
+                        # Table: Robot
+                        geom.set('material', 'robot_bw')
+                for site in root.iter('site'):
+                    if site.get('name') == 'goal_reach':
+                        # Goal Purple
+                        site.set('rgba', '0.6 0.3 1 1')
+            elif env_tag == 2:
+                # Wooden Table with blue background
+                for asset in root.iter('asset'):
+                    for texture in asset.iter('texture'):
+                        # DMSuite(blue) stary sky
+                        if texture.get('name') == 'sky':
+                            texture.set('rgb1', '.4 .6 .8')
+                            texture.set('rgb2', '0 0 0')
+                            texture.set('width', '800')
+                            texture.set('height', '800')
+                            texture.set('mark', 'random')
+                            texture.set('markrgb', '1 1 1')
+
+                for site in root.iter('site'):
+                    if site.get('name') == 'goal_reach':
+                        # Goal Purple
+                        site.set('rgba', '0.6 0.3 1 1')
+            else:
+                raise ValueError('Invalid eval intervention id tag.')
 
         modxmlpath = model_name.split('sawyer_xyz')[0]
         modxmlpath += 'sawyer_xyz_randomized' + experiment_id + "/"
