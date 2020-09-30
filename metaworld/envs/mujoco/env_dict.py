@@ -313,7 +313,12 @@ RAND_MODE_CLS_DICT = OrderedDict(
           ('pick-place-v1', SawyerReachPushPickPlaceEnv),
           ('button-press-v1', SawyerButtonPressEnv),
           ('drawer-open-v1', SawyerDrawerOpenEnv),
-          ('drawer-close-v1', SawyerDrawerCloseEnv)
+          ('drawer-close-v1', SawyerDrawerCloseEnv),
+          ('peg-insert-side-v1', SawyerPegInsertionSideEnv),
+          ('window-open-v1', SawyerWindowOpenEnv),
+          ('window-close-v1', SawyerWindowCloseEnv),
+          ('door-close-v1', SawyerDoorCloseEnv),
+          ('door-open-v1', SawyerDoorEnv),
 
       ))), ('test',
             OrderedDict((
@@ -323,7 +328,12 @@ RAND_MODE_CLS_DICT = OrderedDict(
                 ('pick-place-v1', SawyerReachPushPickPlaceEnv),
                 ('button-press-v1', SawyerButtonPressEnv),
                 ('drawer-open-v1', SawyerDrawerOpenEnv),
-                ('drawer-close-v1', SawyerDrawerCloseEnv)
+                ('drawer-close-v1', SawyerDrawerCloseEnv),
+                ('peg-insert-side-v1', SawyerPegInsertionSideEnv),
+                ('window-open-v1', SawyerWindowOpenEnv),
+                ('window-close-v1', SawyerWindowCloseEnv),
+                ('door-close-v1', SawyerDoorCloseEnv),
+                ('door-open-v1', SawyerDoorEnv),
             )))))
 
 
