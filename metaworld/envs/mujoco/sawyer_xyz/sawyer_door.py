@@ -88,7 +88,7 @@ class SawyerDoorEnv(SawyerXYZEnv):
             np.array(obj_high),
         )
         self.goal_space = Box(np.array(goal_low), np.array(goal_high))
-        if self.obs_type == 'plain' or self.obs_type == 'just_goal'::
+        if self.obs_type == 'plain' or self.obs_type == 'just_goal':
             self.observation_space = Box(
                 np.hstack((self.hand_low, obj_low,)),
                 np.hstack((self.hand_high, obj_high,)),
@@ -154,6 +154,8 @@ class SawyerDoorEnv(SawyerXYZEnv):
                 ])
         elif self.obs_type == 'plain':
             return np.concatenate([flat_obs,])  # TODO ZP do we need the concat?
+        elif self.obs_type == 'just_goal':
+            return np.concatenate([self._state_goal])
         else:
             return np.concatenate([flat_obs, self._state_goal_idx])
 
