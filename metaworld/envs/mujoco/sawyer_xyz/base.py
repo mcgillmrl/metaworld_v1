@@ -240,6 +240,10 @@ class SawyerMocapBase(MujocoEnv, metaclass=abc.ABCMeta):
         modxmlpath = model_name.split('sawyer_xyz')[0]
         modxmlpath += 'sawyer_xyz_randomized' + experiment_id + "/"
 
+        exp_tag = modxmlpath.split('seed')[0][:-1]
+        seed_num = modxmlpath.split('seed')[1].split('=')[1].split('/')[0]
+
+        modxmlpath = exp_tag + 'seed_' + seed_num + "/"
         if not os.path.exists(modxmlpath):
             os.makedirs(modxmlpath)
         tmppath = modxmlpath + 'phase_' + phase + '.xml'
